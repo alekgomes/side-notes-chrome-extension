@@ -13,19 +13,17 @@ window.onload = () => {
   dbConnection.onupgradeneeded = (event: any) => {
     console.log("onupgradeneeded")
     db = event.target.result
-    db.createObjectStore("notes", { keyPath: "id", autoIncrement: true })
+
+    if (!db.objectStoreNames.contains("notes")) {
+      db.createObjectStore("notes", { autoIncrement: true })
+    }
   }
 
   dbConnection.onsuccess = (event: any) => {
     db = event.target.result
   }
 
-  chrome.runtime.onMessage.addListener(function (
-    request,
-    sender,
-    sendResponse
-  ) {
-    console.log(request)
+  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.type === "saveSelection") {
       const transaction = db.transaction(["notes"], "readwrite")
 
@@ -39,11 +37,46 @@ window.onload = () => {
 
       const objectStore = transaction.objectStore("notes")
 
-      const objectStoreRequest = objectStore.add(
-        {content: window.getSelection()?.toString()}
-      )
+      console.log(window.getSelection())
+      const objectStoreRequest = objectStore.add({
+        content: window.getSelection()?.toString(),
+        data: Date.now(),
+        url: window.location.href,
+      })
+
       objectStoreRequest.onsuccess = (e: any) => console.log(e)
       objectStoreRequest.onerror = (e: any) => console.log(e)
+    }
+
+    if (request.type === "getData") {
+      const transaction = db.transaction(["notes"], "readonly")
+      const store = transaction.objectStore("notes")
+      const getAllRequest = store.getAll()
+      getAllRequest.onsuccess = (e: any) => {
+        console.log(e)
+        sendResponse(e.target.result)
+      }
+
+      getAllRequest.onerror = (e: any) => {
+        sendResponse(e)
+      }
+      return true
+    }
+
+    if (request.type === "deleteData") {
+      const transaction = db.transaction(["notes"], "readwrite")
+      const store = transaction.objectStore("notes")
+      const deleteRequest = store.delete(request.payload)
+      deleteRequest.onsuccess = (e: any) => {
+        console.log(e)
+        sendResponse(e)
+      }
+
+      deleteRequest.onerror = (e: any) => {
+        console.log(e)
+        sendResponse(e)
+      }
+      return true
     }
   })
 }

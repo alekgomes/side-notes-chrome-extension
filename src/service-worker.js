@@ -1,3 +1,5 @@
+console.log("service-worker.js")
+
 chrome.contextMenus.create(
   {
     id: "sideNotes",
@@ -13,16 +15,7 @@ chrome.contextMenus.onClicked.addListener(async () => {
     lastFocusedWindow: true,
   })
 
-  chrome.tabs.sendMessage(tab.id , {
+  chrome.tabs.sendMessage(tab.id, {
     type: "saveSelection",
   })
-})
-
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  console.log(
-    sender.tab
-      ? "from a content script:" + sender.tab.url
-      : "from the extension"
-  )
- 
 })

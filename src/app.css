@@ -1,0 +1,15 @@
+.listItem {
+  cursor: pointer;
+}
+
+.listItem__actions {
+  visibility: hidden;
+}
+
+.listItem:hover .listItem__actions {
+  visibility: visible;  
+}
+
+.listItem__actions > * {
+  cursor: pointer;
+}

@@ -8,14 +8,15 @@ window.onload = function () {
     dbConnection.onupgradeneeded = function (event) {
         console.log("onupgradeneeded");
         db = event.target.result;
-        db.createObjectStore("notes", { keyPath: "id", autoIncrement: true });
+        if (!db.objectStoreNames.contains("notes")) {
+            db.createObjectStore("notes", { autoIncrement: true });
+        }
     };
     dbConnection.onsuccess = function (event) {
         db = event.target.result;
     };
     chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         var _a;
-        console.log(request);
         if (request.type === "saveSelection") {
             var transaction = db.transaction(["notes"], "readwrite");
             transaction.oncomplete = function (event) {
@@ -25,9 +26,41 @@ window.onload = function () {
                 console.log(event);
             };
             var objectStore = transaction.objectStore("notes");
-            var objectStoreRequest = objectStore.add({ content: (_a = window.getSelection()) === null || _a === void 0 ? void 0 : _a.toString() });
+            console.log(window.getSelection());
+            var objectStoreRequest = objectStore.add({
+                content: (_a = window.getSelection()) === null || _a === void 0 ? void 0 : _a.toString(),
+                data: Date.now(),
+                url: window.location.href,
+            });
             objectStoreRequest.onsuccess = function (e) { return console.log(e); };
             objectStoreRequest.onerror = function (e) { return console.log(e); };
+        }
+        if (request.type === "getData") {
+            var transaction = db.transaction(["notes"], "readonly");
+            var store = transaction.objectStore("notes");
+            var getAllRequest = store.getAll();
+            getAllRequest.onsuccess = function (e) {
+                console.log(e);
+                sendResponse(e.target.result);
+            };
+            getAllRequest.onerror = function (e) {
+                sendResponse(e);
+            };
+            return true;
+        }
+        if (request.type === "deleteData") {
+            var transaction = db.transaction(["notes"], "readwrite");
+            var store = transaction.objectStore("notes");
+            var deleteRequest = store.delete(request.payload);
+            deleteRequest.onsuccess = function (e) {
+                console.log(e);
+                sendResponse(e);
+            };
+            deleteRequest.onerror = function (e) {
+                console.log(e);
+                sendResponse(e);
+            };
+            return true;
         }
     });
 };
