@@ -1,5 +1,28 @@
 console.log("service-worker.js")
 
+const DB_NAME = "side-notes"
+const DB_VERSION = 1
+const STORE_NOTES = "notes"
+
+let db
+
+const dbConnection = indexedDB.open(DB_NAME, DB_VERSION)
+
+dbConnection.onerror = (e) => console.log("ERROR:", e)
+
+dbConnection.onupgradeneeded = (event) => {
+  console.log("onupgradeneeded")
+  db = event.target.result
+
+  if (!db.objectStoreNames.contains(STORE_NOTES)) {
+    db.createObjectStore(STORE_NOTES, { autoIncrement: true })
+  }
+}
+
+dbConnection.onsuccess = (event) => {
+  db = event.target.result
+}
+
 chrome.contextMenus.create(
   {
     id: "sideNotes",
@@ -15,7 +38,63 @@ chrome.contextMenus.onClicked.addListener(async () => {
     lastFocusedWindow: true,
   })
 
-  chrome.tabs.sendMessage(tab.id, {
-    type: "saveSelection",
+  const note = await chrome.tabs.sendMessage(tab.id, {
+    type: "NoteDataFromUser",
   })
+
+  const transaction = db.transaction([STORE_NOTES], "readwrite")
+
+  transaction.oncomplete = (event) => {
+    console.log(event)
+  }
+
+  transaction.onerror = (event) => {
+    console.log(event)
+  }
+
+  const objectStore = transaction.objectStore(STORE_NOTES)
+  console.log(note)
+  const objectStoreRequest = objectStore.add(note)
+
+  objectStoreRequest.onsuccess = (e) => console.log(e)
+  objectStoreRequest.onerror = (e) => console.log(e)
 })
+
+chrome.runtime.onMessage.addListener(
+  ({ type, payload }, sender, sendResponse) => {
+    console.log("ON_MESSAGE", type, SAVE_SELECTION)
+    switch (type) {
+      case "GET_DATA": {
+        console.log("GET_DATA")
+        const transaction = db.transaction([STORE_NOTES], "readonly")
+        const store = transaction.objectStore(STORE_NOTES)
+        const getAllRequest = store.getAll()
+        getAllRequest.onsuccess = (e) => {
+          console.log(e)
+          sendResponse(e.target.result)
+        }
+
+        getAllRequest.onerror = (e) => {
+          sendResponse(e)
+        }
+        return true
+      }
+
+      case "DELETE_DATA": {
+        const transaction = db.transaction([STORE_NOTES], "readwrite")
+        const store = transaction.objectStore(STORE_NOTES)
+        const deleteRequest = store.delete(payload)
+        deleteRequest.onsuccess = (e) => {
+          console.log(e)
+          sendResponse(e)
+        }
+
+        deleteRequest.onerror = (e) => {
+          console.log(e)
+          sendResponse(e)
+        }
+        return true
+      }
+    }
+  }
+)

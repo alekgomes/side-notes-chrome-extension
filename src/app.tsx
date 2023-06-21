@@ -10,14 +10,32 @@ export function App() {
   }, [])
 
   const requestNotes = async () => {
-    const [tab] = await chrome.tabs.query({
-      active: true,
-      lastFocusedWindow: true,
-    })
-    const response = await chrome.tabs.sendMessage(tab.id || 0, {
-      type: "getData",
-    })
-    setNotes(response)
+    // const [tab] = await chrome.tabs.query({
+    //   active: true,
+    //   lastFocusedWindow: true,
+    // })
+    // const response = await chrome.tabs.sendMessage(tab.id || 0, {
+    //   type: "GET_DATA",
+    // })
+
+    const DB_NAME = "side-notes"
+    const DB_VERSION = 1
+    const STORE_NOTES = "notes"
+
+    let db
+
+    const dbConnection = indexedDB.open(DB_NAME, DB_VERSION)
+    dbConnection.onsuccess = (event) => {
+      db = event.target.result
+      const transaction = db.transaction([STORE_NOTES], "readonly")
+      const store = transaction.objectStore(STORE_NOTES)
+      const getAllRequest = store.getAll()
+
+      getAllRequest.onsuccess = (e) => {
+        console.log(e)
+        setNotes(e.target.result)
+      }
+    }
   }
 
   const requestDelete = async (noteId: any) => {
@@ -26,7 +44,7 @@ export function App() {
       lastFocusedWindow: true,
     })
     const response = await chrome.tabs.sendMessage(tab.id || 0, {
-      type: "deleteData",
+      type: "DeleteData",
       payload: noteId,
     })
 

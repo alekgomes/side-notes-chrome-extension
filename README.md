@@ -22,3 +22,6 @@ Para rodar localmente é preciso carregar a extensão no Google Chrome, para iss
 - [ ] Syncar o IndexedDB entre todas as abas => Adicionados em uma aba devem estar visível em todas
 
 - [ ] Adicionar estilo ao trecho de texto selecionado (highligh)
+
+
+## Visão Geral Sobre Como funciona
