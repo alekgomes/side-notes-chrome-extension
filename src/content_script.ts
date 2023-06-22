@@ -38,11 +38,22 @@ window.onload = () => {
       const objectStore = transaction.objectStore("notes")
 
       console.log(window.getSelection())
-      const objectStoreRequest = objectStore.add({
-        content: window.getSelection()?.toString(),
-        data: Date.now(),
-        url: window.location.href,
-      })
+
+      const content = window.getSelection()?.toString() || ''
+
+      const date = Date.now()
+
+      const encodedContent = encodeURIComponent(content);
+      const highlightPrefix = '#:~:text='
+      const url = window.location.href + highlightPrefix + encodedContent
+
+      const data = {
+        content,
+        data: date,
+        url,
+      }
+      
+      const objectStoreRequest = objectStore.add(data)
 
       objectStoreRequest.onsuccess = (e: any) => console.log(e)
       objectStoreRequest.onerror = (e: any) => console.log(e)

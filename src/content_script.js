@@ -27,11 +27,17 @@ window.onload = function () {
             };
             var objectStore = transaction.objectStore("notes");
             console.log(window.getSelection());
-            var objectStoreRequest = objectStore.add({
-                content: (_a = window.getSelection()) === null || _a === void 0 ? void 0 : _a.toString(),
-                data: Date.now(),
-                url: window.location.href,
-            });
+            var content = ((_a = window.getSelection()) === null || _a === void 0 ? void 0 : _a.toString()) || '';
+            var date = Date.now();
+            var encodedContent = encodeURIComponent(content);
+            var highlightPrefix = '#:~:text=';
+            var url = window.location.href + highlightPrefix + encodedContent;
+            var data = {
+                content: content,
+                data: date,
+                url: url,
+            };
+            var objectStoreRequest = objectStore.add(data);
             objectStoreRequest.onsuccess = function (e) { return console.log(e); };
             objectStoreRequest.onerror = function (e) { return console.log(e); };
         }
