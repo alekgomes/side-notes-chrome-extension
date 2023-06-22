@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "Side Notes",
+  "version": "0.0.1",
+  "permissions": ["activeTab", "contextMenus", "scripting"],
+  "background": {
+    "service_worker": "src/service-worker.ts",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["src/content_script.ts"]
+    }
+  ],
+  "action": {
+    "default_title": "Click Me",
+    "default_popup": "index.html"
+  }
+}
