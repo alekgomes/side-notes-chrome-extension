@@ -25,13 +25,13 @@ export function App() {
     let db
 
     const dbConnection = indexedDB.open(DB_NAME, DB_VERSION)
-    dbConnection.onsuccess = (event) => {
-      db = event.target.result
+    dbConnection.onsuccess = (event: any) => {
+      db = event.target?.result
       const transaction = db.transaction([STORE_NOTES], "readonly")
       const store = transaction.objectStore(STORE_NOTES)
       const getAllRequest = store.getAll()
 
-      getAllRequest.onsuccess = (e) => {
+      getAllRequest.onsuccess = (e: any) => {
         console.log(e)
         setNotes(e.target.result)
       }

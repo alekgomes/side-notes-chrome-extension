@@ -38,7 +38,7 @@ window.onload = () => {
   }
 
   chrome.runtime.onMessage.addListener(
-    ({ type, payload }, sender, sendResponse) => {
+    ({ type, payload }, _sender, sendResponse) => {
       switch (type) {
         case SAVE_SELECTION: {
           const transaction = db.transaction([STORE_NOTES], "readwrite")
