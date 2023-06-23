@@ -19,9 +19,35 @@ Para rodar localmente é preciso carregar a extensão no Google Chrome, para iss
  
 
 ## To-do
-- [ ] Syncar o IndexedDB entre todas as abas => Adicionados em uma aba devem estar visível em todas
+- [x] Syncar o IndexedDB entre todas as abas => Adicionados em uma aba devem estar visível em todas
 
 - [ ] Adicionar estilo ao trecho de texto selecionado (highligh)
 
+- [ ] Exportar Notas em .md (cada nota um arquivou || um arquivo só para todas as todas)
+
 
 ## Visão Geral Sobre Como funciona
+
+O principal arquivo que diz ao navegador que se trata de uma extensão é o `manifest.json`. É nele que declaramos os principais componentes de uma extensão.
+
+![Componentes de um manifest.json](image-1.png)
+
+
+Nessa extensão, temos:
+
+- background: Localizado em `src/service-worker.ts` é o arquivo que gerencia a comunicação entre a extensão,sua aba host e o popup.
+
+- popup: É a janela que aparece quando clica-se no ícone da extensão. É a view em Preact que consome do background.
+
+- action: Define comportamento ao se clicar no ícone da extensão
+
+- content-script: Localizado em `src/content-scripts` é o arquivo que tem acesso ao DOM do host e consegue se comunicar com o background via eventos
+
+- host: A aba atual onde a extensão está sendo executada
+
+
+A comunição entre os scripts de background e o content-scripts se dá a partir da API de eventos do navegador:
+
+![Messaging API](image.png)
+
+
