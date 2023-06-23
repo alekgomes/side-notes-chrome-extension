@@ -1,8 +1,4 @@
-console.log("service-worker.js")
-
-const DB_NAME = "side-notes"
-const DB_VERSION = 1
-const STORE_NOTES = "notes"
+import { DB_NAME, DB_VERSION, STORE_NOTES } from "./config"
 
 let db
 
@@ -39,7 +35,7 @@ chrome.contextMenus.onClicked.addListener(async () => {
   })
 
   const note = await chrome.tabs.sendMessage(tab.id, {
-    type: "NoteDataFromUser",
+    type: "GetNoteDataFromUser",
   })
 
   const transaction = db.transaction([STORE_NOTES], "readwrite")
@@ -61,7 +57,7 @@ chrome.contextMenus.onClicked.addListener(async () => {
 })
 
 chrome.runtime.onMessage.addListener(
-  ({ type, payload }, sender, sendResponse) => {
+  ({ type, payload }, _sender, sendResponse) => {
     console.log("ON_MESSAGE", type, SAVE_SELECTION)
     switch (type) {
       case "GET_DATA": {

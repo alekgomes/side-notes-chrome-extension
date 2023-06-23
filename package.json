@@ -7,12 +7,13 @@
     "dev": "vite dev",
     "build": "vite build",
     "dev:build": "vite build --watch --mode development",
-    "build-extension": "vite build && tsc src/content_script.ts && cp src/content_script.js src/service-worker.js src/manifest.json dist",
     "preview": "vite preview"
   },
   "dependencies": {
     "@types/chrome": "^0.0.237",
     "preact": "^10.13.2",
+    "sagu-ui": "^2.1.5",
+    "styled-components": "^6.0.0-rc.5",
     "vite-plugin-web-extension": "^3.0.9",
     "webextension-polyfill": "^0.10.0"
   },

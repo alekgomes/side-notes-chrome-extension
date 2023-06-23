@@ -96,7 +96,7 @@ window.onload = () => {
           return true
         }
 
-        case "NoteDataFromUser": {
+        case "GetNoteDataFromUser": {
           return sendResponse({
             content: window.getSelection()?.toString(),
             data: Date.now(),
