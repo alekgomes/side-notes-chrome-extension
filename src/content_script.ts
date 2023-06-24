@@ -4,7 +4,8 @@ window.onload = () => {
       case "GET_NOTE_FROM_USER": {
         return sendResponse({
           content: window.getSelection()?.toString(),
-          data: Date.now(),
+          date: Date.now(),
+          origin: window.location.origin,
           url: window.location.href,
         })
       }

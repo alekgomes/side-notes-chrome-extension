@@ -11,7 +11,6 @@ import {
   Button,
   Divider,
   wine,
-  NavLink,
   TextContent,
   Ribbon,
 } from "sagu-ui"
@@ -21,6 +20,12 @@ Object.assign(theme.colors, wine)
 const StyledMain = styled.main`
   width: 520px;
 `
+
+const StyledListItem = styled.li`
+  cursor: pointer;
+`
+
+const formatedDate = (date: Date) => new Intl.DateTimeFormat().format(date)
 
 export function App() {
   const [notes, setNotes] = useState([])
@@ -58,7 +63,7 @@ export function App() {
       const deleteRequest = store.delete(noteId)
 
       deleteRequest.onsuccess = (e: any) => {
-        setNotes(e)
+        setNotes(notes.filter((note: Note) => note.id !== noteId))
         db.close()
       }
 
@@ -77,40 +82,16 @@ export function App() {
     <SaguProvider theme={theme}>
       <SaguGlobalStyles />
       <StyledMain>
-        <Box flex="column" gap="large" border shadow padding="medium">
+        <Box flex="column" gap="large" border shadow padding="medium" fullWidth>
           <Ribbon>Beta</Ribbon>
           <Heading lineLeft lineColor="secondary" size="huge">
             Side Notes
           </Heading>
           <Divider />
-          <Box
-            shadow={false}
-            flex="row"
-            gap="xsmall"
-            fullWidth={true}
-            justify="end"
-          >
-            <Button
-              size="xsmall"
-              outline={false}
-              padding="none"
-              onClick={() => setNotes([])}
-            >
-              Delete all
-            </Button>
-            <Button
-              size="xsmall"
-              outline={false}
-              padding="none"
-              onClick={() => setNotes(notes)}
-            >
-              Restore
-            </Button>
-          </Box>
           <ul>
             {notes.length ? (
               notes.map((note: Note) => (
-                <li>
+                <StyledListItem>
                   <Box
                     flex="row"
                     gap="xxsmall"
@@ -119,13 +100,34 @@ export function App() {
                     justify="space-between"
                     fullWidth
                   >
-                    <NavLink
-                      size="small"
-                      onClick={(e: Event) => handleNavigation(e, note.url)}
-                      padding="none"
-                    >
-                      {note.content}
-                    </NavLink>
+                    <Box fullWidth padding="none">
+                      <TextContent
+                        tag="p"
+                        size="small"
+                        onClick={(e: Event) => handleNavigation(e, note.url)}
+                        padding="none"
+                        role="navigation"
+                        value={note.content}
+                      />
+                      <Box
+                        flex="row"
+                        fullWidth
+                        padding="none"
+                        justify="space-between"
+                        style={{ height: "min-content" }}
+                      >
+                        <TextContent
+                          tag="small"
+                          size="xsmall"
+                          value={note.origin}
+                        />
+                        <TextContent
+                          tag="small"
+                          size="xsmall"
+                          value={formatedDate(note.date)}
+                        />
+                      </Box>
+                    </Box>
                     <Button
                       variant="filled"
                       padding="mini"
@@ -135,7 +137,7 @@ export function App() {
                       Delete
                     </Button>
                   </Box>
-                </li>
+                </StyledListItem>
               ))
             ) : (
               <TextContent value="There is no note..." />

@@ -1,6 +1,7 @@
 export interface Note {
   content: String
   date: Date
+  origin: URL
   url: URL
   id: Number
 }

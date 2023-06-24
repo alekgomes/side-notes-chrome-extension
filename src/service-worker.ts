@@ -36,6 +36,7 @@ chrome.contextMenus.onClicked.addListener(async () => {
     type: "GET_NOTE_FROM_USER",
   })
 
+  console.log({ note })
   const transaction = db.transaction([STORE_NOTES], "readwrite")
 
   transaction.oncomplete = (event) => {
