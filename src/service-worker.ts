@@ -1,21 +1,19 @@
 import { DB_NAME, DB_VERSION, STORE_NOTES } from "./config"
 
-let db
+let db: IDBDatabase
 
-const dbConnection = indexedDB.open(DB_NAME, DB_VERSION)
+const dbConnection: IDBOpenDBRequest = indexedDB.open(DB_NAME, DB_VERSION)
 
 dbConnection.onerror = (e) => console.log("ERROR:", e)
-
-dbConnection.onupgradeneeded = (event) => {
-  console.log("onupgradeneeded")
+dbConnection.onupgradeneeded = (event: any) => {
   db = event.target.result
 
   if (!db.objectStoreNames.contains(STORE_NOTES)) {
-    db.createObjectStore(STORE_NOTES, { autoIncrement: true })
+    db.createObjectStore(STORE_NOTES, { keyPath: "id", autoIncrement: true })
   }
 }
 
-dbConnection.onsuccess = (event) => {
+dbConnection.onsuccess = (event: any) => {
   db = event.target.result
 }
 
@@ -34,8 +32,8 @@ chrome.contextMenus.onClicked.addListener(async () => {
     lastFocusedWindow: true,
   })
 
-  const note = await chrome.tabs.sendMessage(tab.id, {
-    type: "GetNoteDataFromUser",
+  const note = await chrome.tabs.sendMessage(tab.id || 0, {
+    type: "GET_NOTE_FROM_USER",
   })
 
   const transaction = db.transaction([STORE_NOTES], "readwrite")
@@ -45,52 +43,14 @@ chrome.contextMenus.onClicked.addListener(async () => {
   }
 
   transaction.onerror = (event) => {
-    console.log(event)
+    console.log("transaction.onerror: ", event)
   }
 
   const objectStore = transaction.objectStore(STORE_NOTES)
-  console.log(note)
   const objectStoreRequest = objectStore.add(note)
 
   objectStoreRequest.onsuccess = (e) => console.log(e)
   objectStoreRequest.onerror = (e) => console.log(e)
 })
 
-chrome.runtime.onMessage.addListener(
-  ({ type, payload }, _sender, sendResponse) => {
-    console.log("ON_MESSAGE", type, SAVE_SELECTION)
-    switch (type) {
-      case "GET_DATA": {
-        console.log("GET_DATA")
-        const transaction = db.transaction([STORE_NOTES], "readonly")
-        const store = transaction.objectStore(STORE_NOTES)
-        const getAllRequest = store.getAll()
-        getAllRequest.onsuccess = (e) => {
-          console.log(e)
-          sendResponse(e.target.result)
-        }
 
-        getAllRequest.onerror = (e) => {
-          sendResponse(e)
-        }
-        return true
-      }
-
-      case "DELETE_DATA": {
-        const transaction = db.transaction([STORE_NOTES], "readwrite")
-        const store = transaction.objectStore(STORE_NOTES)
-        const deleteRequest = store.delete(payload)
-        deleteRequest.onsuccess = (e) => {
-          console.log(e)
-          sendResponse(e)
-        }
-
-        deleteRequest.onerror = (e) => {
-          console.log(e)
-          sendResponse(e)
-        }
-        return true
-      }
-    }
-  }
-)
