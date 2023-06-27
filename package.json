@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@types/chrome": "^0.0.237",
+    "awesome-debounce-promise": "^2.1.0",
+    "lodash": "^4.17.21",
     "preact": "^10.13.2",
     "sagu-ui": "^2.1.5",
     "styled-components": "^6.0.0-rc.5",

@@ -1,7 +1,9 @@
+import AwesomeDebouncePromise from "awesome-debounce-promise"
+
 import { useLayoutEffect, useState } from "preact/hooks"
 import { styled } from "styled-components"
 import { Note } from "./types"
-import { DB_NAME, DB_VERSION, STORE_NOTES } from "./config"
+import { deleteNote, getAllNotes, getFilteredNotes } from "./indexedDb"
 import {
   theme,
   SaguGlobalStyles,
@@ -13,6 +15,7 @@ import {
   wine,
   TextContent,
   Ribbon,
+  TextField,
 } from "sagu-ui"
 
 Object.assign(theme.colors, wine)
@@ -29,65 +32,69 @@ const formatedDate = (date: Date) => new Intl.DateTimeFormat().format(date)
 
 export function App() {
   const [notes, setNotes] = useState([])
+  const [inputValue, setInputValue] = useState("")
 
   useLayoutEffect(() => {
     requestNotes()
   }, [])
 
-  const requestNotes = async () => {
-    let db: any
-
-    const dbConnection = indexedDB.open(DB_NAME, DB_VERSION)
-    dbConnection.onsuccess = (event: any) => {
-      db = event.target?.result
-      const transaction = db.transaction([STORE_NOTES], "readonly")
-      const store = transaction.objectStore(STORE_NOTES)
-      const getAllRequest = store.getAll()
-
-      getAllRequest.onsuccess = (e: any) => {
-        setNotes(e.target.result)
-        db.close()
-      }
-    }
+  const requestNotes = () => {
+    getAllNotes().then((e: any) => {
+      const result = e.target.result
+      setNotes(result)
+    })
   }
 
-  const requestDelete = async (noteId: any) => {
-    let db: any
+  const handleNoteDelete = (noteId: any): Promise<void> =>
+    deleteNote(noteId).then(requestNotes)
 
-    const dbConnection = indexedDB.open(DB_NAME, DB_VERSION)
-
-    dbConnection.onsuccess = (event: any) => {
-      db = event.target?.result
-      const transaction = db.transaction([STORE_NOTES], "readwrite")
-      const store = transaction.objectStore(STORE_NOTES)
-      const deleteRequest = store.delete(noteId)
-
-      deleteRequest.onsuccess = (e: any) => {
-        setNotes(notes.filter((note: Note) => note.id !== noteId))
-        db.close()
-      }
-
-      deleteRequest.onerror = () => {
-        db.close()
-      }
-    }
-  }
-
-  const handleNavigation = (event: Event, url: URL) => {
+  const handleNavigation = (event: Event, url: URL): void => {
     event.preventDefault()
     window.open(url, "_blank", "noreferrer")
+  }
+
+  const handleInputChange = (e: any): void => {
+    const prevNotes = notes
+    setInputValue(e.target.value)
+
+    const debouncedRequestFilteredData = AwesomeDebouncePromise(
+      getFilteredNotes,
+      250
+    )
+
+    debouncedRequestFilteredData(e.target.value).then((notes: any) => {
+      if (notes.length > 0) setNotes(notes)
+      else setNotes(prevNotes)
+    })
   }
 
   return (
     <SaguProvider theme={theme}>
       <SaguGlobalStyles />
       <StyledMain>
-        <Box flex="column" gap="large" border shadow padding="medium" fullWidth>
+        <Box
+          flex="column"
+          gap="xsmall"
+          border
+          shadow
+          padding="medium"
+          fullWidth
+        >
           <Ribbon>Beta</Ribbon>
           <Heading lineLeft lineColor="secondary" size="huge">
             Side Notes
           </Heading>
           <Divider />
+
+          <Box padding="xxsmall" fullWidth>
+            <TextField
+              label="Filter by origin"
+              value={inputValue}
+              onChange={handleInputChange}
+              s
+            />
+          </Box>
+
           <ul>
             {notes.length ? (
               notes.map((note: Note) => (
@@ -132,7 +139,7 @@ export function App() {
                       variant="filled"
                       padding="mini"
                       size="xsmall"
-                      onClick={() => requestDelete(note.id)}
+                      onClick={() => handleNoteDelete(note.id)}
                     >
                       Delete
                     </Button>
