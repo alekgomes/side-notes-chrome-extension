@@ -25,6 +25,9 @@ Para rodar localmente é preciso carregar a extensão no Google Chrome, para iss
 
 - [ ] Exportar Notas em .md (cada nota um arquivou || um arquivo só para todas as todas)
 
+- [x] Adicionar filtro por URL
+
+
 
 ## Visão Geral Sobre Como funciona
 

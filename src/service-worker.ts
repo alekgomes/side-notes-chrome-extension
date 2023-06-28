@@ -9,7 +9,12 @@ dbConnection.onupgradeneeded = (event: any) => {
   db = event.target.result
 
   if (!db.objectStoreNames.contains(STORE_NOTES)) {
-    db.createObjectStore(STORE_NOTES, { keyPath: "id", autoIncrement: true })
+    const objectStore = db.createObjectStore(STORE_NOTES, {
+      keyPath: "id",
+      autoIncrement: true,
+    })
+    objectStore.createIndex("originIndex", "origin", { unique: false })
+    objectStore.createIndex("contentIndex", "content", { unique: false })
   }
 }
 
@@ -36,7 +41,6 @@ chrome.contextMenus.onClicked.addListener(async () => {
     type: "GET_NOTE_FROM_USER",
   })
 
-  console.log({ note })
   const transaction = db.transaction([STORE_NOTES], "readwrite")
 
   transaction.oncomplete = (event) => {
