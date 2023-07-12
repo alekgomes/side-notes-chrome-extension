@@ -1,4 +1,5 @@
 import { DB_NAME, DB_VERSION, STORE_NOTES } from "./config"
+import { GET_NOTE_FROM_USER } from "./types"
 
 let db: IDBDatabase
 
@@ -38,7 +39,7 @@ chrome.contextMenus.onClicked.addListener(async () => {
   })
 
   const note = await chrome.tabs.sendMessage(tab.id || 0, {
-    type: "GET_NOTE_FROM_USER",
+    type: GET_NOTE_FROM_USER,
   })
 
   const transaction = db.transaction([STORE_NOTES], "readwrite")
