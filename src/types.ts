@@ -4,10 +4,11 @@ export interface Note {
   origin: URL
   url: URL
   id: Number
+  outterHTML: any
 }
 
 export const SAVE_SELECTION = "SaveSelection"
-export const GET_DATA = "GetData"
+export const GET_ALL_NOTES = "GET_ALL_NOTES"
 export const DELETE_DATA = "DeleteData"
 export const GET_NOTE_FROM_USER = "GetNoteDataFromUser"
 
