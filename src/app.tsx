@@ -1,9 +1,7 @@
 import AwesomeDebouncePromise from "awesome-debounce-promise"
-
+import { Note } from "./types"
 import { useLayoutEffect, useState } from "preact/hooks"
 import { styled } from "styled-components"
-import { Note } from "./types"
-import { deleteNote, getAllNotes, getFilteredNotes } from "./indexedDb"
 import {
   theme,
   SaguGlobalStyles,
@@ -31,43 +29,56 @@ const StyledListItem = styled.li`
 const formatedDate = (date: Date) => new Intl.DateTimeFormat().format(date)
 
 export function App() {
-  const [notes, setNotes] = useState([])
+  const [notes, setNotes] = useState({})
   const [inputValue, setInputValue] = useState("")
+
+  const requestNotes = () => {
+    chrome.storage.local.get(function (result) {
+      setNotes(result)
+    })
+  }
 
   useLayoutEffect(() => {
     requestNotes()
   }, [])
 
-  const requestNotes = () => {
-    getAllNotes().then((e: any) => {
-      const result = e.target.result
-      setNotes(result)
+  const handleNoteDelete = (note: Note) => {
+    const key = note.origin
+    chrome.storage.local.get(function (result) {
+      const notesArray = result[key]
+      const filteredNotes = notesArray.filter(
+        (currNote) => currNote.date !== note.date
+      )
+
+      chrome.storage.local.set({ [key]: filteredNotes }).then(() => {
+        requestNotes()
+      })
+
+      // TODO REMOVE HIGHLIGHT
     })
   }
-
-  const handleNoteDelete = (noteId: any): Promise<void> =>
-    deleteNote(noteId).then(requestNotes)
 
   const handleNavigation = (event: Event, url: URL): void => {
     event.preventDefault()
     window.open(url, "_blank", "noreferrer")
   }
 
-  const handleInputChange = (e: any): void => {
-    const prevNotes = notes
-    setInputValue(e.target.value)
+  // const handleInputChange = (e: any): void => {
+  //   const prevNotes = notes
+  //   setInputValue(e.target.value)
 
-    const debouncedRequestFilteredData = AwesomeDebouncePromise(
-      getFilteredNotes,
-      250
-    )
+  //   const filterByOrigin = (inputValue: String) =>
+  //     notes.filter((note: any) => note.origin.includes(inputValue))
 
-    debouncedRequestFilteredData(e.target.value).then((notes: any) => {
-      if (notes.length > 0) setNotes(notes)
-      else setNotes(prevNotes)
-    })
-  }
+  //   const debouncedRequestFilteredData = AwesomeDebouncePromise(
+  //     filterByOrigin,
+  //     250
+  //   )
 
+  //   console.log(debouncedRequestFilteredData)
+  // }
+
+  console.log("notes: ", notes)
   return (
     <SaguProvider theme={theme}>
       <SaguGlobalStyles />
@@ -86,66 +97,68 @@ export function App() {
           </Heading>
           <Divider />
 
-          <Box padding="xxsmall" fullWidth>
+          {/* <Box padding="xxsmall" fullWidth>
             <TextField
               label="Filter by origin"
               value={inputValue}
               onChange={handleInputChange}
               s
             />
-          </Box>
+          </Box> */}
 
           <ul>
-            {notes.length ? (
-              notes.map((note: Note) => (
-                <StyledListItem>
-                  <Box
-                    flex="row"
-                    gap="xxsmall"
-                    padding="xxsmall"
-                    alignment="center"
-                    justify="space-between"
-                    fullWidth
-                  >
-                    <Box fullWidth padding="none">
-                      <TextContent
-                        tag="p"
-                        size="small"
-                        onClick={(e: Event) => handleNavigation(e, note.url)}
-                        padding="none"
-                        role="navigation"
-                        value={note.content}
-                      />
-                      <Box
-                        flex="row"
-                        fullWidth
-                        padding="none"
-                        justify="space-between"
-                        style={{ height: "min-content" }}
-                      >
-                        <TextContent
-                          tag="small"
-                          size="xsmall"
-                          value={note.origin}
-                        />
-                        <TextContent
-                          tag="small"
-                          size="xsmall"
-                          value={formatedDate(note.date)}
-                        />
-                      </Box>
-                    </Box>
-                    <Button
-                      variant="filled"
-                      padding="mini"
-                      size="xsmall"
-                      onClick={() => handleNoteDelete(note.id)}
+            {Object.values(notes).flat().length ? (
+              Object.values(notes)
+                .flat()
+                .map((note) => (
+                  <StyledListItem>
+                    <Box
+                      flex="row"
+                      gap="xxsmall"
+                      padding="xxsmall"
+                      alignment="center"
+                      justify="space-between"
+                      fullWidth
                     >
-                      Delete
-                    </Button>
-                  </Box>
-                </StyledListItem>
-              ))
+                      <Box fullWidth padding="none">
+                        <TextContent
+                          tag="p"
+                          size="small"
+                          onClick={(e: Event) => handleNavigation(e, note.url)}
+                          padding="none"
+                          role="navigation"
+                          value={note.content}
+                        />
+                        <Box
+                          flex="row"
+                          fullWidth
+                          padding="none"
+                          justify="space-between"
+                          style={{ height: "min-content" }}
+                        >
+                          <TextContent
+                            tag="small"
+                            size="xsmall"
+                            value={note.origin}
+                          />
+                          <TextContent
+                            tag="small"
+                            size="xsmall"
+                            value={formatedDate(note.date)}
+                          />
+                        </Box>
+                      </Box>
+                      <Button
+                        variant="filled"
+                        padding="mini"
+                        size="xsmall"
+                        onClick={() => handleNoteDelete(note)}
+                      >
+                        Delete
+                      </Button>
+                    </Box>
+                  </StyledListItem>
+                ))
             ) : (
               <TextContent value="There is no note..." />
             )}

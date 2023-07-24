@@ -1,27 +1,4 @@
-import { DB_NAME, DB_VERSION, STORE_NOTES } from "./config"
 import { GET_NOTE_FROM_USER } from "./types"
-
-let db: IDBDatabase
-
-const dbConnection: IDBOpenDBRequest = indexedDB.open(DB_NAME, DB_VERSION)
-
-dbConnection.onerror = (e) => console.log("ERROR:", e)
-dbConnection.onupgradeneeded = (event: any) => {
-  db = event.target.result
-
-  if (!db.objectStoreNames.contains(STORE_NOTES)) {
-    const objectStore = db.createObjectStore(STORE_NOTES, {
-      keyPath: "id",
-      autoIncrement: true,
-    })
-    objectStore.createIndex("originIndex", "origin", { unique: false })
-    objectStore.createIndex("contentIndex", "content", { unique: false })
-  }
-}
-
-dbConnection.onsuccess = (event: any) => {
-  db = event.target.result
-}
 
 chrome.contextMenus.create(
   {
@@ -42,21 +19,17 @@ chrome.contextMenus.onClicked.addListener(async () => {
     type: GET_NOTE_FROM_USER,
   })
 
-  const transaction = db.transaction([STORE_NOTES], "readwrite")
+  const key = note.origin
+  let previousNoteAtId: any[] = []
 
-  transaction.oncomplete = (event) => {
-    console.log(event)
-  }
+  chrome.storage.local.get(function (result) {
+    Object.entries(result).map((obj) => {
+      if (obj[0] === key) previousNoteAtId.push(...obj[1])
+    })
 
-  transaction.onerror = (event) => {
-    console.log("transaction.onerror: ", event)
-  }
-
-  const objectStore = transaction.objectStore(STORE_NOTES)
-  const objectStoreRequest = objectStore.add(note)
-
-  objectStoreRequest.onsuccess = (e) => console.log(e)
-  objectStoreRequest.onerror = (e) => console.log(e)
+    const value = [...previousNoteAtId, note]
+    chrome.storage.local.set({ [key]: value }).then(() => {
+      console.log("note added to storage.local ", { note })
+    })
+  })
 })
-
-
