@@ -58,9 +58,28 @@ export function App() {
     })
   }
 
-  const handleNavigation = (event: Event, url: URL): void => {
+  const handleNavigation = (event: Event, note: Note): void => {
     event.preventDefault()
-    window.open(url, "_blank", "noreferrer")
+    const key = note.origin
+
+    chrome.storage.local.get(function (result) {
+      const notesArray = result[key]
+
+      const newNotes = notesArray.map((currNote) => {
+        if (currNote.date == note.date) {
+          currNote.clicked = true
+        }
+        return currNote
+      })
+
+      chrome.storage.local.set({ [key]: newNotes }).then(() => {
+        window.open(note.url, "_blank", "noreferrer")
+      })
+
+      // TODO REMOVE HIGHLIGHT
+    })
+
+    // setar note.clicked = true
   }
 
   // const handleInputChange = (e: any): void => {
@@ -120,11 +139,14 @@ export function App() {
                       justify="space-between"
                       fullWidth
                     >
-                      <Box fullWidth padding="none">
+                      <Box
+                        onClick={(e: Event) => handleNavigation(e, note)}
+                        fullWidth
+                        padding="none"
+                      >
                         <TextContent
                           tag="p"
                           size="small"
-                          onClick={(e: Event) => handleNavigation(e, note.url)}
                           padding="none"
                           role="navigation"
                           value={note.content}

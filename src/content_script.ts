@@ -30,7 +30,7 @@ import { GET_NOTE_FROM_USER } from "./types"
 
 // Use a função, passando o texto que você deseja envolver com uma tag span
 
-function wrapTextWithSpan(rootNode, textToFind, backgroundColor) {
+function wrapTextWithSpan(rootNode, note, backgroundColor) {
   const stack = [rootNode]
 
   while (stack.length > 0) {
@@ -38,15 +38,16 @@ function wrapTextWithSpan(rootNode, textToFind, backgroundColor) {
 
     if (node.nodeType === Node.TEXT_NODE) {
       const text = node.textContent
-      const index = text.indexOf(textToFind)
+      const index = text.indexOf(note.content)
 
       if (index !== -1) {
         const beforeText = text.substring(0, index)
-        const afterText = text.substring(index + textToFind.length)
+        const afterText = text.substring(index + note.content.length)
 
         const span = document.createElement("span")
         span.style.backgroundColor = backgroundColor
-        span.textContent = textToFind
+        span.textContent = note.content
+        span.dataset.sidenotes = note.data
 
         const parentNode = node.parentNode
         parentNode.insertBefore(document.createTextNode(beforeText), node)
@@ -66,11 +67,19 @@ function wrapTextWithSpan(rootNode, textToFind, backgroundColor) {
   }
 }
 
+const scrollToClicked = (note: any) => {
+  if (note.clicked) {
+    const element = document.querySelector(`[data-sidenotes="${note.data}"]`)
+    element?.scrollIntoView({ block: "center" })
+  }
+}
+
 window.onload = async () => {
   chrome.storage.local.get(function (result) {
     if (result.hasOwnProperty(window.origin)) {
-      result[window.origin].map((r: any) => {        
-        wrapTextWithSpan(document.body, r.content , "red")
+      result[window.origin].map((note: any) => {
+        wrapTextWithSpan(document.body, note, "red")
+        scrollToClicked(note)
       })
     }
   })
