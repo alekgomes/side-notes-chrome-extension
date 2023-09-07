@@ -1,5 +1,4 @@
-import AwesomeDebouncePromise from "awesome-debounce-promise"
-import { Note } from "./types"
+import { Note } from "../types"
 import { useLayoutEffect, useState } from "preact/hooks"
 import { styled } from "styled-components"
 import {
@@ -13,7 +12,6 @@ import {
   wine,
   TextContent,
   Ribbon,
-  TextField,
 } from "sagu-ui"
 
 Object.assign(theme.colors, wine)
@@ -30,7 +28,6 @@ const formatedDate = (date: Date) => new Intl.DateTimeFormat().format(date)
 
 export function App() {
   const [notes, setNotes] = useState({})
-  const [inputValue, setInputValue] = useState("")
 
   const requestNotes = () => {
     chrome.storage.local.get(function (result) {

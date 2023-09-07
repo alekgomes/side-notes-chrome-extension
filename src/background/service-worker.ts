@@ -1,4 +1,4 @@
-import { GET_NOTE_FROM_USER } from "./types"
+import { GET_NOTE_FROM_USER } from "../types"
 
 chrome.contextMenus.create(
   {

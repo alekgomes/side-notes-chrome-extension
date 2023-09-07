@@ -2,15 +2,25 @@
   "manifest_version": 3,
   "name": "Side Notes",
   "version": "0.0.1",
-  "permissions": ["activeTab", "contextMenus", "scripting", "storage"],
+  "permissions": [
+    "activeTab",
+    "contextMenus",
+    "scripting",
+    "storage"
+  ],
   "background": {
-    "service_worker": "src/service-worker.ts",
+    "service_worker": "src/background/service-worker.ts",
     "type": "module"
   },
   "content_scripts": [
     {
-      "matches": ["*://*/*"],
-      "js": ["src/content_script.ts"]
+      "matches": [
+        "*://*/*"
+      ],
+      "js": [
+        "src/contentScripts/content_script.ts"
+      ]
+
     }
   ],
   "action": {

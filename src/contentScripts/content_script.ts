@@ -1,34 +1,8 @@
-import { GET_NOTE_FROM_USER } from "./types"
-
-
-// function wrapTextWithSpan(text) {
-//   // Busca todos os nós de texto no documento
-//   const walker = document.createTreeWalker(
-//     document.body,
-//     NodeFilter.SHOW_TEXT,
-//     null,
-//     false
-//   )
-
-//   while (walker.nextNode()) {
-//     // Verifica se o nó de texto atual contém o texto desejado
-//     if (walker.currentNode.textContent.includes(text)) {
-//       // Cria um novo elemento span e define o texto como seu conteúdo
-//       const span = document.createElement("span")
-//       span.style.backgroundColor = "red"
-
-//       span.textContent = text
-
-//       // Substitui o texto desejado pela tag span no nó de texto atual
-//       walker.currentNode.textContent = walker.currentNode.textContent.replace(
-//         text,
-//         span.outerHTML
-//       )
-//     }
-//   }
-// }
-
-// Use a função, passando o texto que você deseja envolver com uma tag span
+import { GET_NOTE_FROM_USER } from "../types"
+import "./style.css"
+// Styles needs to be imported from content_script since plugin can't
+// find it from manifest.json.
+// https://github.com/aklinker1/vite-plugin-web-extension/issues/118#issuecomment-1588132764
 
 function wrapTextWithSpan(rootNode, note, backgroundColor) {
   const stack = [rootNode]
@@ -75,10 +49,11 @@ const scrollToClicked = (note: any) => {
 }
 
 window.onload = async () => {
+  console.log("loaded")
   chrome.storage.local.get(function (result) {
     if (result.hasOwnProperty(window.origin)) {
       result[window.origin].map((note: any) => {
-        wrapTextWithSpan(document.body, note, "red")
+        wrapTextWithSpan(document.body, note, "transparent")
         scrollToClicked(note)
       })
     }
@@ -94,7 +69,7 @@ window.onload = async () => {
           if (selection && selection.rangeCount > 0) {
             const range = selection.getRangeAt(0)
             const span = document.createElement("span")
-            span.style.background = "rgba(255,0,0)"
+            span.classList.add("sidenote__note")
             range.surroundContents(span)
             outterHTML = span.outerHTML
           }
