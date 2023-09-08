@@ -10,11 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.2.6",
     "@types/chrome": "^0.0.237",
-    "antd": "^5.8.6",
-    "awesome-debounce-promise": "^2.1.0",
-    "css.gg": "^2.1.1",
     "lodash": "^4.17.21",
     "preact": "^10.13.2",
     "sagu-ui": "^2.1.5",
