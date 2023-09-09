@@ -1,9 +1,9 @@
 export interface Note {
-  content: String
+  content: string
   date: Date
   origin: URL
   url: URL
-  id: Number
+  id: number
   outterHTML: any
 }
 

@@ -34,17 +34,6 @@ window.onload = async () => {
     async ({ type }, _sender, sendResponse) => {
       switch (type) {
         case GET_NOTE_FROM_USER: {
-          let outterHTML
-
-          const selection = window.getSelection()
-          if (selection && selection.rangeCount > 0) {
-            const range = selection.getRangeAt(0)
-            const span = document.createElement("span")
-            span.classList.add("sidenote__note")
-            range.surroundContents(span)
-            outterHTML = span.outerHTML
-          }
-
           return sendResponse({
             content: window.getSelection()?.toString(),
             date: Date.now(),

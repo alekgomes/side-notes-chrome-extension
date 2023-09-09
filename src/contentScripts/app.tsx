@@ -1,57 +1,16 @@
-import { render, h } from "preact"
-import styled from "styled-components"
+import { render } from "preact"
+import { Highlight } from "../components/Highlight"
 import { useEffect } from "preact/hooks"
+import { Note } from "../types"
 
-const HoverBox = styled.div`
-  position: absolute;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  height: 50px;
-  width: 250px;
-  top: 0;
-  right: 0;
-  scale: 0;
-  z-index: 199;
-  transform: translateY(-100%);
-  transform-origin: center;
-  background-color: rgba(255, 255, 255, 0.8);
-  transition: scale 250ms cubic-bezier(0.86, 0, 0.07, 1);
-
-  i {
-    cursor: pointer;
-  }
-`
-
-const StyledHighlight = styled.span`
-  background-color: red;
-  position: relative;
-
-  &:hover .hoverBox {
-    scale: 1;
-  }
-`
-
-const Highlight = ({ children }) => {
-  return (
-    <StyledHighlight>
-      <HoverBox className="hoverBox">
-        <i className="gg-trash" />
-        <i className="gg-color-picker" />
-      </HoverBox>
-      {children}
-    </StyledHighlight>
-  )
-}
-
-function wrapTextWithSpan(rootNode, note) {
-  const stack = [rootNode]
+export function wrapTextWithSpan(rootNode: HTMLElement, note: Note) {
+  const stack: Node[] = [rootNode]
 
   while (stack.length > 0) {
     const node = stack.pop()
 
-    if (node.nodeType === Node.TEXT_NODE) {
-      const text = node.textContent
+    if (node?.nodeType === Node.TEXT_NODE) {
+      const text = node.textContent || ""
       const index = text.indexOf(note.content)
       if (index !== -1) {
         const beforeText = text.substring(0, index)
@@ -64,9 +23,9 @@ function wrapTextWithSpan(rootNode, note) {
             {afterText}
           </>
         )
-        render(<HighlightNode />, node.parentNode)
+        node.parentNode && render(<HighlightNode />, node.parentNode)
       }
-    } else if (node.nodeType === Node.ELEMENT_NODE) {
+    } else if (node?.nodeType === Node.ELEMENT_NODE) {
       const children = node.childNodes
       for (let i = children.length - 1; i >= 0; i--) {
         stack.push(children[i])
@@ -92,7 +51,16 @@ const App = () => {
         })
       }
     })
+    chrome.runtime.onMessage.addListener(async ({ type, payload }, _sender) => {
+      switch (type) {
+        case "UPDATE": {
+          wrapTextWithSpan(document.body, payload)
+        }
+      }
+    })
   }, [])
+
+  return <>""</>
 }
 
 export default App

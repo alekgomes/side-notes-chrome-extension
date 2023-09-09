@@ -1,3 +1,4 @@
+import { wrapTextWithSpan } from "../contentScripts/app"
 import { GET_NOTE_FROM_USER } from "../types"
 
 chrome.contextMenus.create(
@@ -27,9 +28,14 @@ chrome.contextMenus.onClicked.addListener(async () => {
       if (obj[0] === key) previousNoteAtId.push(...obj[1])
     })
 
-    const value = [...previousNoteAtId, note]
-    chrome.storage.local.set({ [key]: value }).then(() => {
+    const notes = [...previousNoteAtId, note]
+    chrome.storage.local.set({ [key]: notes }).then(() => {
       console.log("note added to storage.local ", { note })
+
+      chrome.tabs.sendMessage(tab.id || 0, {
+        type: "UPDATE",
+        payload: note,
+      })
     })
   })
 })
