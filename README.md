@@ -1,56 +1,49 @@
 # SideNotes
 
-SideNotes é uma extensão para o Google Chrome que auxilia na coleta, visualização e busca de trechos de texto pela internet.
-Com SideNotes é possível selecionar uma pedaço de texto e adicioná-lo em sua biblioteca para revisitá-lo posteriormente.
+SideNotes is a browser extension that helps you gather pieces of text information around the internet and saves them in the way of wasy visualization, just one click away.
 
-## Como rodar a extensão locamente
+## Running locally
 
-Para rodar localmente é preciso carregar a extensão no Google Chrome, para isso:
+To run the extension, it's needed to add the builded project within the Google Chrome.
 
-0 - Faça o build da extensão com `npm run build-extension`
+0 - Build the project with `npm run build-extension`
 
-1 - Acesse a página de extensões digitando `chrome://extensions` em uma nova aba 
+1 - Open a new tab and o the extension page `chrome://extensions` 
 
-2 - Ative o "Modo do desenvolvedor " clicando no switch posicionado no canto superior direito
+2 - Activate the "Developer mode" by toggling the switch at the upper rigth corner
 
-3 - Clique em "Carregar sem compactação"
+3 - Click on "Carregar sem compactação"
 
-4 - Navegue até a raiz do projeto e carregue a pasta `dist`
- 
-
-## To-do
-- [x] Syncar o IndexedDB entre todas as abas => Adicionados em uma aba devem estar visível em todas
-
-- [ ] Adicionar estilo ao trecho de texto selecionado (highligh)
-
-- [ ] Exportar Notas em .md (cada nota um arquivou || um arquivo só para todas as todas)
-
-- [x] Adicionar filtro por URL
+4 - Browse to the root of the project and select the `dist` folder
 
 
+## An overview on how it works
 
-## Visão Geral Sobre Como funciona
+#### In the user side, Sidenotes works like this:
 
-O principal arquivo que diz ao navegador que se trata de uma extensão é o `manifest.json`. É nele que declaramos os principais componentes de uma extensão.
+1 - User selects a range of text and right click on it. The context menu will show up and the "Add to SideNotes" option will be available.
+![Adding new note](image-2.png)
 
-![Componentes de um manifest.json](image-1.png)
+2 - The Note is added to the Local Storage's background and can be accesed clicking the SideNotes extension icon.
+![Saved Notes](image-3.png)
 
-
-Nessa extensão, temos:
-
-- background: Localizado em `src/service-worker.ts` é o arquivo que gerencia a comunicação entre a extensão,sua aba host e o popup.
-
-- popup: É a janela que aparece quando clica-se no ícone da extensão. É a view em Preact que consome do background.
-
-- action: Define comportamento ao se clicar no ícone da extensão
-
-- content-script: Localizado em `src/content-scripts` é o arquivo que tem acesso ao DOM do host e consegue se comunicar com o background via eventos
-
-- host: A aba atual onde a extensão está sendo executada
+3 - The user might click on the note to be redirect to the original page
 
 
-A comunição entre os scripts de background e o content-scripts se dá a partir da API de eventos do navegador:
+
+#### In the developer side:
+
+As a browser extension, Sidenotes works mainly based on events provided by an messaging api that are used to comunicate with the integrated parts. The image below gives an overview of the comunication flow:
+
 
 ![Messaging API](image.png)
 
+
+## Known bugs
+
+At the moment, SideNotes has problems wrapping text that expand to multiple DOM elements, that means that the following HTML will not be highlighted (but will be saved at extesion's localStorage):
+
+`<p>I'm a normal text but <strong>here's a bold text</strong></p>`
+
+The above will not be highlighted since the current version of the code cannot deal with texts that spans through multiple DOM nodes. 
 

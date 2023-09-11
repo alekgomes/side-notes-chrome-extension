@@ -3,7 +3,7 @@ import { GET_NOTE_FROM_USER, Note } from "../types"
 chrome.contextMenus.create(
   {
     id: "sideNotes",
-    title: "Side Notes",
+    title: "Add to SideNotes",
     contexts: ["selection"],
   },
   () => console.log("contextMenus created")
