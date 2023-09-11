@@ -1,7 +1,27 @@
-import { render } from "preact"
-import { Highlight } from "../components/Highlight"
-import { useEffect } from "preact/hooks"
 import { Note } from "../types"
+
+const createHighlight = (note: Note) => {
+  const span = document.createElement("span")
+  span.style.backgroundColor = "red"
+  span.textContent = note.content
+  span.dataset.sidenotes = note.data
+
+  const hoverDiv = document.createElement("div")
+  const trashIcon = document.createElement("i")
+  const colorIcon = document.createElement("i")
+
+  hoverDiv.classList.add("hoverDiv")
+  trashIcon.classList.add("gg-trash")
+  colorIcon.classList.add("gg-color-picker")
+  span.classList.add("sidenote-highlight")
+
+  hoverDiv.appendChild(trashIcon)
+  hoverDiv.appendChild(colorIcon)
+
+  span.appendChild(hoverDiv)
+
+  return span
+}
 
 export function wrapTextWithSpan(rootNode: HTMLElement, note: Note) {
   const stack: Node[] = [rootNode]
@@ -10,20 +30,25 @@ export function wrapTextWithSpan(rootNode: HTMLElement, note: Note) {
     const node = stack.pop()
 
     if (node?.nodeType === Node.TEXT_NODE) {
-      const text = node.textContent || ""
+      // maybe use Range.surroundContents()
+
+      const text = node.textContent
       const index = text.indexOf(note.content)
+
       if (index !== -1) {
         const beforeText = text.substring(0, index)
         const afterText = text.substring(index + note.content.length)
 
-        const HighlightNode = () => (
-          <>
-            {beforeText}
-            <Highlight>{note.content}</Highlight>
-            {afterText}
-          </>
+        const highlight = createHighlight(note)
+
+        const parentNode = node.parentNode
+        parentNode?.insertBefore(document.createTextNode(beforeText), node)
+        parentNode?.insertBefore(highlight, node)
+        parentNode?.insertBefore(
+          document.createTextNode(afterText),
+          node.nextSibling
         )
-        node.parentNode && render(<HighlightNode />, node.parentNode)
+        parentNode?.removeChild(node)
       }
     } else if (node?.nodeType === Node.ELEMENT_NODE) {
       const children = node.childNodes
@@ -34,33 +59,9 @@ export function wrapTextWithSpan(rootNode: HTMLElement, note: Note) {
   }
 }
 
-const scrollToClicked = (note: any) => {
+export const scrollToClicked = (note: any) => {
   if (note.clicked) {
     const element = document.querySelector(`[data-sidenotes="${note.data}"]`)
     element?.scrollIntoView({ block: "center" })
   }
 }
-
-const App = () => {
-  useEffect(() => {
-    chrome.storage.local.get(function (result) {
-      if (result.hasOwnProperty(window.origin)) {
-        result[window.origin].map((note: any) => {
-          wrapTextWithSpan(document.body, note)
-          scrollToClicked(note)
-        })
-      }
-    })
-    chrome.runtime.onMessage.addListener(async ({ type, payload }, _sender) => {
-      switch (type) {
-        case "UPDATE": {
-          wrapTextWithSpan(document.body, payload)
-        }
-      }
-    })
-  }, [])
-
-  return <>""</>
-}
-
-export default App

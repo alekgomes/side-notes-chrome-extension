@@ -5,4 +5,8 @@ import webExtension from "vite-plugin-web-extension"
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [preact(), webExtension()],
+  build: {
+    sourcemap: true,
+    minify: false,
+  },
 })

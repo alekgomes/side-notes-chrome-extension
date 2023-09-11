@@ -182,21 +182,6 @@ export function App() {
               <TextContent value="There is no note..." />
             )}
           </ul>
-          <Box
-            padding="xxsmall"
-            fullWidth
-            style={{
-              height: "min-content",
-              textAlign: "right",
-            }}
-          >
-            <TextContent
-              tag="i"
-              color="black"
-              value="Powered by Sagu-UI"
-              size="xsmall"
-            />
-          </Box>
         </Box>
       </StyledMain>
     </SaguProvider>

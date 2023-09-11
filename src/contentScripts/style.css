@@ -3,7 +3,7 @@
   position: relative;
 }
 
-.sidenote-highlight__hoverbar{  
+.hoverDiv{  
   position: absolute;
   display: flex;
   justify-content: space-around;
@@ -21,12 +21,12 @@
 }
 
 
-.sidenote-highlight:hover .sidenote-highlight__hoverbar {
+.sidenote-highlight:hover .hoverDiv {
   scale: 1;
   
 }
 
-.sidenote-highlight__hoverbar i {
+.hoverDiv i {
   cursor: pointer;
 }
 

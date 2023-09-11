@@ -1,5 +1,4 @@
-import { render } from "preact"
-import App from "./app"
+import { wrapTextWithSpan } from "./app"
 import { GET_NOTE_FROM_USER } from "../types"
 import "./style.css"
 // Styles needs to be imported from content_script since plugin can't
@@ -28,7 +27,14 @@ function injectIconCssLink() {
 
 window.onload = async () => {
   injectIconCssLink()
-  render(<App />, document.querySelector("body") as HTMLElement)
+
+  chrome.storage.local.get(function (result) {
+    if (result.hasOwnProperty(window.origin)) {
+      result[window.origin].map((note: any) => {
+        wrapTextWithSpan(document.body, note)
+      })
+    }
+  })
 
   chrome.runtime.onMessage.addListener(
     async ({ type }, _sender, sendResponse) => {
@@ -44,4 +50,12 @@ window.onload = async () => {
       }
     }
   )
+
+  chrome.runtime.onMessage.addListener(async ({ type, payload }, _sender) => {
+    switch (type) {
+      case "UPDATE": {
+        wrapTextWithSpan(document.body, payload)
+      }
+    }
+  })
 }

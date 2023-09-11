@@ -1,5 +1,4 @@
-import { wrapTextWithSpan } from "../contentScripts/app"
-import { GET_NOTE_FROM_USER } from "../types"
+import { GET_NOTE_FROM_USER, Note } from "../types"
 
 chrome.contextMenus.create(
   {
@@ -21,7 +20,7 @@ chrome.contextMenus.onClicked.addListener(async () => {
   })
 
   const key = note.origin
-  let previousNoteAtId: any[] = []
+  let previousNoteAtId: Note[] = []
 
   chrome.storage.local.get(function (result) {
     Object.entries(result).map((obj) => {
