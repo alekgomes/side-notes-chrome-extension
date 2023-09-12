@@ -22,10 +22,10 @@ To run the extension, it's needed to add the builded project within the Google C
 #### In the user side, Sidenotes works like this:
 
 1 - User selects a range of text and right click on it. The context menu will show up and the "Add to SideNotes" option will be available.
-![Adding new note](image-2.png)
+![Adding new note](assets/image-2.png)
 
 2 - The Note is added to the Local Storage's background and can be accesed clicking the SideNotes extension icon.
-![Saved Notes](image-3.png)
+![Saved Notes](assets/image-3.png)
 
 3 - The user might click on the note to be redirect to the original page
 
@@ -36,7 +36,7 @@ To run the extension, it's needed to add the builded project within the Google C
 As a browser extension, Sidenotes works mainly based on events provided by an messaging api that are used to comunicate with the integrated parts. The image below gives an overview of the comunication flow:
 
 
-![Messaging API](image.png)
+![Messaging API](assets/image.png)
 
 
 ## Known bugs
