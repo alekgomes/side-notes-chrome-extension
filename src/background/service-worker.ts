@@ -23,6 +23,7 @@ chrome.contextMenus.onClicked.addListener(async () => {
   let previousNoteAtId: Note[] = []
 
   chrome.storage.local.get(function (result) {
+    console.log("RESULT", result)
     Object.entries(result).map((obj) => {
       if (obj[0] === key) previousNoteAtId.push(...obj[1])
     })

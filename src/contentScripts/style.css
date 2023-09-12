@@ -21,10 +21,14 @@
 }
 
 
-.sidenote-highlight:hover .hoverDiv {
-  scale: 1;
-  
+.sidenote-highlight:not(.deleted):hover .hoverDiv {
+    scale: 1;  
 }
+
+.sidenote-highlight.deleted {
+  background: inherit;
+}
+
 
 .hoverDiv i {
   cursor: pointer;

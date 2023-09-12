@@ -1,10 +1,28 @@
 import { Note } from "../types"
 
+
+const deleteNote = (note) => {
+  const key = note.origin
+  chrome.storage.local.get(function (result) {
+    const notesArray = result[key]
+    const filteredNotes = notesArray.filter(
+      (currNote) => currNote.date !== note.date
+    )
+
+    chrome.storage.local.set({ [key]: filteredNotes }).then(() => {
+      const deletedNote = document.querySelector(
+        `[data-sidenotes-id="${note.id}"]`
+      )
+      deletedNote.classList.add("deleted")
+    })
+  })
+}
+
 const createHighlight = (note: Note) => {
   const span = document.createElement("span")
-  span.style.backgroundColor = "red"
+
   span.textContent = note.content
-  span.dataset.sidenotes = note.data
+  span.dataset.sidenotesId = note.id
 
   const hoverDiv = document.createElement("div")
   const trashIcon = document.createElement("i")
@@ -13,6 +31,9 @@ const createHighlight = (note: Note) => {
   hoverDiv.classList.add("hoverDiv")
   trashIcon.classList.add("gg-trash")
   colorIcon.classList.add("gg-color-picker")
+
+  trashIcon.onclick = () => deleteNote(note)
+
   span.classList.add("sidenote-highlight")
 
   hoverDiv.appendChild(trashIcon)

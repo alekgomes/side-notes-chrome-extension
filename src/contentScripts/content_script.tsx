@@ -43,6 +43,7 @@ window.onload = async () => {
           return sendResponse({
             content: window.getSelection()?.toString(),
             date: Date.now(),
+            id: Date.now(),
             origin: window.location.origin,
             url: window.location.href,
           })
