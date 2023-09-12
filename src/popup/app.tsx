@@ -1,4 +1,5 @@
 import { Note } from "../types"
+import Type from "../enums"
 import { useLayoutEffect, useState } from "preact/hooks"
 import { styled } from "styled-components"
 import {
@@ -39,8 +40,13 @@ export function App() {
     requestNotes()
   }, [])
 
-  const handleNoteDelete = (note: Note) => {
+  const handleNoteDelete = async (note: Note) => {
     const key = note.origin
+    const [tab] = await chrome.tabs.query({
+      active: true,
+      lastFocusedWindow: true,
+    })
+
     chrome.storage.local.get(function (result) {
       const notesArray = result[key]
       const filteredNotes = notesArray.filter(
@@ -49,6 +55,11 @@ export function App() {
 
       chrome.storage.local.set({ [key]: filteredNotes }).then(() => {
         requestNotes()
+
+        chrome.tabs.sendMessage(tab.id || 0, {
+          type: Type.DELETE_NOTE,
+          payload: note,
+        })
       })
 
       // TODO REMOVE HIGHLIGHT

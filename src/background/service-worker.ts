@@ -1,4 +1,5 @@
-import { GET_NOTE_FROM_USER, Note } from "../types"
+import { Note } from "../types"
+import Type from "../enums"
 
 chrome.contextMenus.create(
   {
@@ -16,14 +17,13 @@ chrome.contextMenus.onClicked.addListener(async () => {
   })
 
   const note = await chrome.tabs.sendMessage(tab.id || 0, {
-    type: GET_NOTE_FROM_USER,
+    type: Type.GET_NOTE_FROM_USER,
   })
 
   const key = note.origin
   let previousNoteAtId: Note[] = []
 
   chrome.storage.local.get(function (result) {
-    console.log("RESULT", result)
     Object.entries(result).map((obj) => {
       if (obj[0] === key) previousNoteAtId.push(...obj[1])
     })
@@ -33,7 +33,7 @@ chrome.contextMenus.onClicked.addListener(async () => {
       console.log("note added to storage.local ", { note })
 
       chrome.tabs.sendMessage(tab.id || 0, {
-        type: "UPDATE",
+        type: Type.UPDATE,
         payload: note,
       })
     })

@@ -1,5 +1,5 @@
 import { wrapTextWithSpan } from "./app"
-import { GET_NOTE_FROM_USER } from "../types"
+import Type from "../enums"
 import "./style.css"
 // Styles needs to be imported from content_script since plugin can't
 // find it from manifest.json.
@@ -37,9 +37,9 @@ window.onload = async () => {
   })
 
   chrome.runtime.onMessage.addListener(
-    async ({ type }, _sender, sendResponse) => {
+    async ({ type, payload }, _sender, sendResponse) => {
       switch (type) {
-        case GET_NOTE_FROM_USER: {
+        case Type.GET_NOTE_FROM_USER: {
           return sendResponse({
             content: window.getSelection()?.toString(),
             date: Date.now(),
@@ -48,13 +48,20 @@ window.onload = async () => {
             url: window.location.href,
           })
         }
+
+        case Type.DELETE_NOTE: {
+          const deletedNote = document.querySelector(
+            `[data-sidenotes-id="${payload.id}"]`
+          )
+          deletedNote.classList.add("deleted")
+        }
       }
     }
   )
 
   chrome.runtime.onMessage.addListener(async ({ type, payload }, _sender) => {
     switch (type) {
-      case "UPDATE": {
+      case Type.UPDATE: {
         wrapTextWithSpan(document.body, payload)
       }
     }
