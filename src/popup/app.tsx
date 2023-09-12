@@ -14,6 +14,7 @@ import {
   TextContent,
   Ribbon,
 } from "sagu-ui"
+import { scrollToClicked } from "../utils"
 
 Object.assign(theme.colors, wine)
 
@@ -61,12 +62,10 @@ export function App() {
           payload: note,
         })
       })
-
-      // TODO REMOVE HIGHLIGHT
     })
   }
 
-  const handleNavigation = (event: Event, note: Note): void => {
+  const handleNavigation = (event: Event, note: Note) => {
     event.preventDefault()
     const key = note.origin
 
@@ -83,11 +82,7 @@ export function App() {
       chrome.storage.local.set({ [key]: newNotes }).then(() => {
         window.open(note.url, "_blank", "noreferrer")
       })
-
-      // TODO REMOVE HIGHLIGHT
     })
-
-    // setar note.clicked = true
   }
 
   // const handleInputChange = (e: any): void => {

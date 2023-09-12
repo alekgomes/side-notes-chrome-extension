@@ -28,10 +28,8 @@ export const removeHighlightFromDeletedNote = (payload: Note) => {
 }
 
 export const scrollToClicked = (note: any) => {
-  if (note.clicked) {
-    const element = document.querySelector(`[data-sidenotes="${note.data}"]`)
-    element?.scrollIntoView({ block: "center" })
-  }
+  const element = document.querySelector(`[data-sidenotes-id="${note.id}"]`)
+  element?.scrollIntoView({ block: "center" })
 }
 
 const deleteNote = (note: Note) => {

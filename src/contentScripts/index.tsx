@@ -1,4 +1,4 @@
-import { wrapTextWithSpan } from "../utils"
+import { wrapTextWithSpan, scrollToClicked } from "../utils"
 import Type from "../enums"
 import { injectIconCssLink, removeHighlightFromDeletedNote } from "../utils"
 import "./style.css"
@@ -11,8 +11,19 @@ window.onload = async () => {
 
   chrome.storage.local.get(function (result) {
     if (result.hasOwnProperty(window.origin)) {
-      result[window.origin].map((note: any) => {
+      result[window.origin].map(async (note: any) => {
         wrapTextWithSpan(document.body, note)
+        if (note.clicked) {
+          const element = document.querySelector(
+            `[data-sidenotes-id="${note.id}"]`
+          )
+          element?.scrollIntoView({ block: "center" })
+
+          chrome.runtime.sendMessage({
+            type: Type.UPDATE_CLICKED,
+            payload: note,
+          })
+        }
       })
     }
   })
@@ -31,17 +42,13 @@ window.onload = async () => {
         }
 
         case Type.DELETE_NOTE: {
-          removeHighlightFromDeletedNote(payload)
+          return removeHighlightFromDeletedNote(payload)
+        }
+
+        case Type.UPDATE: {
+          return wrapTextWithSpan(document.body, payload)
         }
       }
     }
   )
-
-  chrome.runtime.onMessage.addListener(async ({ type, payload }, _sender) => {
-    switch (type) {
-      case Type.UPDATE: {
-        wrapTextWithSpan(document.body, payload)
-      }
-    }
-  })
 }
