@@ -1,7 +1,40 @@
-import { Note } from "../types"
+import { Note } from "./types"
 
+export function injectIconCssLink() {
+  // inject icons
+  const trashIconLink = document.createElement("link")
+  const colorIconLink = document.createElement("link")
 
-const deleteNote = (note) => {
+  trashIconLink.setAttribute(
+    "href",
+    "https://unpkg.com/css.gg@2.0.0/icons/css/trash.css"
+  )
+  trashIconLink.setAttribute("rel", "stylesheet")
+  colorIconLink.setAttribute(
+    "href",
+    "https://unpkg.com/css.gg@2.0.0/icons/css/color-picker.css"
+  )
+  colorIconLink.setAttribute("rel", "stylesheet")
+
+  document.head.appendChild(trashIconLink)
+  document.head.appendChild(colorIconLink)
+}
+
+export const removeHighlightFromDeletedNote = (payload: Note) => {
+  const deletedNote = document.querySelector(
+    `[data-sidenotes-id="${payload.id}"]`
+  )
+  deletedNote.classList.add("deleted")
+}
+
+export const scrollToClicked = (note: any) => {
+  if (note.clicked) {
+    const element = document.querySelector(`[data-sidenotes="${note.data}"]`)
+    element?.scrollIntoView({ block: "center" })
+  }
+}
+
+const deleteNote = (note: Note) => {
   const key = note.origin
   chrome.storage.local.get(function (result) {
     const notesArray = result[key]
@@ -10,10 +43,7 @@ const deleteNote = (note) => {
     )
 
     chrome.storage.local.set({ [key]: filteredNotes }).then(() => {
-      const deletedNote = document.querySelector(
-        `[data-sidenotes-id="${note.id}"]`
-      )
-      deletedNote.classList.add("deleted")
+      removeHighlightFromDeletedNote(note)
     })
   })
 }
@@ -77,12 +107,5 @@ export function wrapTextWithSpan(rootNode: HTMLElement, note: Note) {
         stack.push(children[i])
       }
     }
-  }
-}
-
-export const scrollToClicked = (note: any) => {
-  if (note.clicked) {
-    const element = document.querySelector(`[data-sidenotes="${note.data}"]`)
-    element?.scrollIntoView({ block: "center" })
   }
 }

@@ -1,29 +1,10 @@
-import { wrapTextWithSpan } from "./app"
+import { wrapTextWithSpan } from "../utils"
 import Type from "../enums"
+import { injectIconCssLink, removeHighlightFromDeletedNote } from "../utils"
 import "./style.css"
 // Styles needs to be imported from content_script since plugin can't
 // find it from manifest.json.
 // https://github.com/aklinker1/vite-plugin-web-extension/issues/118#issuecomment-1588132764
-
-function injectIconCssLink() {
-  // inject icons
-  const trashIconLink = document.createElement("link")
-  const colorIconLink = document.createElement("link")
-
-  trashIconLink.setAttribute(
-    "href",
-    "https://unpkg.com/css.gg@2.0.0/icons/css/trash.css"
-  )
-  trashIconLink.setAttribute("rel", "stylesheet")
-  colorIconLink.setAttribute(
-    "href",
-    "https://unpkg.com/css.gg@2.0.0/icons/css/color-picker.css"
-  )
-  colorIconLink.setAttribute("rel", "stylesheet")
-
-  document.head.appendChild(trashIconLink)
-  document.head.appendChild(colorIconLink)
-}
 
 window.onload = async () => {
   injectIconCssLink()
@@ -50,10 +31,7 @@ window.onload = async () => {
         }
 
         case Type.DELETE_NOTE: {
-          const deletedNote = document.querySelector(
-            `[data-sidenotes-id="${payload.id}"]`
-          )
-          deletedNote.classList.add("deleted")
+          removeHighlightFromDeletedNote(payload)
         }
       }
     }
