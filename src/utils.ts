@@ -119,8 +119,19 @@ const handleColorPickerClick = (parentNode: HTMLElement) => {
   parentNode.appendChild(colorSelector)
 }
 
+
+const copyToClipboard = (event: Event) => {
+  const { target } = event
+  const parentElement = target.parentElement
+  const granParentElement = parentElement.parentElement
+  const innerText = granParentElement.innerText
+
+  window.navigator.clipboard.writeText(innerText)
+  parentElement.remove()
+}
+
 const createHighlight = (note: Note) => {
-  const highlight = document.createElement("span")
+  const highlight = document.createElement("mark")
 
   highlight.textContent = note.content
   highlight.dataset.sidenotesId = note.id
@@ -131,7 +142,7 @@ const createHighlight = (note: Note) => {
   const colorIcon = iconFactory("gg-color-picker", () =>
     handleColorPickerClick(highlight)
   )
-  const copyIcon = iconFactory("gg-copy")
+  const copyIcon = iconFactory("gg-copy", copyToClipboard)
 
   hoverDiv.classList.add("hoverDiv")
 
