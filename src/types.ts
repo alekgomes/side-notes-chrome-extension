@@ -3,6 +3,7 @@ export type Note = {
   date: Date
   origin: URL
   url: URL
+  color: string
   id: number
   outterHTML: any
 }

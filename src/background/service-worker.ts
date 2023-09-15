@@ -1,5 +1,6 @@
 import { Note } from "../types"
 import Type from "../enums"
+import { updateNote } from "../utils"
 
 chrome.contextMenus.create(
   {
@@ -40,28 +41,11 @@ chrome.contextMenus.onClicked.addListener(async () => {
   })
 })
 
-
-chrome.runtime.onMessage.addListener(
-  async ({ type, payload }, _sender, sendResponse) => {
-    switch (type) {
-      case Type.UPDATE_CLICKED: {
-        const key = payload.origin
-        console.log("SET CLICKED TO FALSE")
-        chrome.storage.local.get(function (result) {
-          const notesArray = result[key]
-
-          const newNotes = notesArray.map((currNote) => {
-            if (currNote.date == payload.date) {
-              currNote.clicked = false
-            }
-            return currNote
-          })
-
-          chrome.storage.local.set({ [key]: newNotes }).then(() => {
-            console.log("CLICKED SET TO FALSE")
-          })
-        })
-      }
+chrome.runtime.onMessage.addListener(async ({ type, payload }, _sender) => {
+  switch (type) {
+    case Type.UPDATE_CLICKED: {
+      const { key, id } = payload.origin
+      updateNote(key, id, "clicked", false)
     }
   }
-)
+})

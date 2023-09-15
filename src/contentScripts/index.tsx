@@ -36,6 +36,7 @@ window.onload = async () => {
             content: window.getSelection()?.toString(),
             date: Date.now(),
             id: Date.now(),
+            color: "#FFFD98",
             origin: window.location.origin,
             url: window.location.href,
           })
