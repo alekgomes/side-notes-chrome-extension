@@ -1,0 +1,7 @@
+export { default as deleteNote } from "./deleteNote"
+export { default as handleColorPickerClick } from "./handleColorPickerClick"
+export { default as injectIconCssLink } from "./injectIconCssLink"
+export { default as updateNote } from "./updateNote"
+export { default as scrollToClicked } from "./scrollToClicked"
+export { default as wrapTextWithSpan } from "./wrapTextWithSpan"
+export { default as removeHighlightFromDeletedNote } from "./removeHighlightFromDeletedNote"

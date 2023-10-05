@@ -1,6 +1,11 @@
-import { wrapTextWithSpan, scrollToClicked } from "../utils"
+import {
+  wrapTextWithSpan,
+  scrollToClicked,
+  injectIconCssLink,
+  removeHighlightFromDeletedNote,
+} from "../utils"
 import Type from "../enums"
-import { injectIconCssLink, removeHighlightFromDeletedNote } from "../utils"
+
 import "./style.css"
 // Styles needs to be imported from content_script since plugin can't
 // find it from manifest.json.

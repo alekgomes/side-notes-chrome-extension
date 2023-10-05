@@ -14,7 +14,6 @@ import {
   TextContent,
   Ribbon,
 } from "sagu-ui"
-import { scrollToClicked } from "../utils"
 
 Object.assign(theme.colors, wine)
 
