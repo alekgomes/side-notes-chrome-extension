@@ -151,7 +151,7 @@ export function App() {
                           size="small"
                           padding="none"
                           role="navigation"
-                          value={note.content}
+                          value={note.textContent}
                         />
                         <Box
                           flex="row"

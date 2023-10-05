@@ -38,7 +38,8 @@ window.onload = async () => {
       switch (type) {
         case Type.GET_NOTE_FROM_USER: {
           return sendResponse({
-            content: window.getSelection()?.toString(),
+            textContent: window.getSelection()?.toString(),
+            htmlContent: window.getSelection()?.getRangeAt(0).cloneContents(),
             date: Date.now(),
             id: Date.now(),
             color: "#FFFD98",
