@@ -10,7 +10,7 @@ export default function createHoverBox(node: HTMLElement, note: Note) {
   const colorIcon = iconFactory("gg-color-picker", () =>
     handleColorPickerClick(node)
   )
-  const copyIcon = iconFactory("gg-copy", copyToClipboard)
+  const copyIcon = iconFactory("gg-copy", () => copyToClipboard(note))
 
   hoverDiv.classList.add("hoverDiv")
   hoverDiv.appendChild(trashIcon)

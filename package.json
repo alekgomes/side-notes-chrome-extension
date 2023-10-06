@@ -16,11 +16,13 @@
     "lodash": "^4.17.21",
     "preact": "^10.13.2",
     "sagu-ui": "^2.1.5",
+    "styled-components": "^6.0.7",
     "vite-plugin-web-extension": "^3.0.9",
     "webextension-polyfill": "^0.10.0"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.5.0",
+    "@vitest/coverage-v8": "^0.34.6",
     "typescript": "^5.0.2",
     "vite": "^4.3.9",
     "vitest": "^0.34.6"

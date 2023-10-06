@@ -1,11 +1,5 @@
-export default function copyToClipboard({
-  target,
-}: {
-  target: HTMLElement
-}): void {
-  const parentElement = target.parentElement
-  const granParentElement = parentElement?.parentElement
-  const innerText = granParentElement?.innerText
+import type { Note } from "../types"
 
-  window.navigator.clipboard.writeText(innerText ?? "")
+export default function copyToClipboard(note: Note): void {
+  window.navigator.clipboard.writeText(note.textContent)
 }
