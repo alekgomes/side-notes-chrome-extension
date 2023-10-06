@@ -1,31 +1,38 @@
 import type { Note } from "../types"
 import createHoverBox from "./createHoverBox"
 
-export const findParentNode = (rootNode: HTMLElement, note: Note) => {
+export const findParentNode = (
+  rootNode: HTMLElement,
+  note: Note
+): HTMLElement => {
   const treeWalker = document.createTreeWalker(
     rootNode,
     NodeFilter.SHOW_ELEMENT
   )
 
-  let parentNode
+  let parentNode: HTMLElement = document.createElement("p")
 
   while (treeWalker.nextNode()) {
-    const currentNode = treeWalker.currentNode
+    const currentNode = treeWalker.currentNode as HTMLElement
 
     if (currentNode.textContent?.includes(note.textContent)) {
       parentNode = currentNode
     }
   }
 
-  return { node: parentNode }
+  return parentNode
 }
 
 export default function wrapTextWithSpan(rootNode: HTMLElement, note: Note) {
-  const { node } = findParentNode(rootNode, note)
+  const node = findParentNode(rootNode, note)
+  const innerHTML = node.innerHTML
+  const index = innerHTML.indexOf(note.htmlContent)
+  const htmlBefore = innerHTML.substring(0, index)
+  const htmlAfter = innerHTML.substring(index + note.htmlContent.length)
 
-  const hoverBox = createHoverBox()
+  node.innerHTML = `${htmlBefore}<mark data-sidenotes-id=${note.id} style="background-color:${note.color} " class="sidenote-highlight">${note.htmlContent}</mark>${htmlAfter}`
 
-  node.innerHTML = `<mark data-sidenoteid=${note.id} style="background: ${
-    note.color ?? ""
-  }" class="sidenote-highlight">${hoverBox.outerHTML}${node.innerHTML}</mark>`
+  const highlight = node.querySelector("mark")
+  const hoverBox = createHoverBox(highlight, note)
+  highlight?.appendChild(hoverBox)
 }

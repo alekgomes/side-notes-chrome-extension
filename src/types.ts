@@ -1,11 +1,11 @@
 export type Note = {
-  content: string
+  textContent: string
   date: Date
   origin: URL
   url: URL
   color: string
   id: number
-  outterHTML: any
+  htmlContent: string
 }
 
 export type Filter = "originIndex" | "contentIndex" | ""

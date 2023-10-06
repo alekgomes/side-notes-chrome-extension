@@ -16,7 +16,7 @@ test("Should return the correct parent node of the provided text", () => {
       <body>
         <section>
           <p>It's a little tricky to find texts</p>
-          <p class="parentNode">All of this text should be wrapped but there's more here than only that</p>
+          <p>All of this text should be wrapped but there's more here than only that</p>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis eius, dolorum temporibus commodi dignissimos dolor deserunt iste optio, nulla, impedit voluptates in provident tempore. Nam sed minima itaque ex fugit.</p>
           <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quos deserunt quisquam, nesciunt voluptate tempora in quod saepe quibusdam facere eveniet, aliquid fugiat distinctio dignissimos alias tempore dolores laborum exercitationem quaerat!
           Itaque quo sunt qui officiis maiores. Veniam quaerat voluptas eos neque, aut sit doloremque dolorum molestias beatae ut ipsam, harum sed quibusdam et voluptatem deleniti aspernatur molestiae quas aliquid quisquam.</p>
@@ -34,15 +34,16 @@ test("Should return the correct parent node of the provided text", () => {
   const res = findParentNode(jsdom.window.document.body, note)
 
   // ASSERT
-  expect(res.node.textContent).toBe(
+  expect(res.textContent).toBe(
     "All of this text should be wrapped but there's more here than only that"
   )
 })
 
-test("Should wrap contiguous text", () => {
+test("Should correctly wrap only couple of words within element", () => {
   // SETUP
   const note = {
-    textContent: "This text should be wrapped",
+    textContent: "text should",
+    htmlContent: "text should",
   }
 
   const domString = `
@@ -66,7 +67,40 @@ test("Should wrap contiguous text", () => {
 
   // ASSERT
   expect(jsdom.window.document.querySelector("MARK")).toBeTruthy()
-  expect(jsdom.window.document.querySelector("MARK").textContent).toBeTruthy(
+  expect(jsdom.window.document.querySelector("MARK").textContent).toBe(
+    "text should"
+  )
+})
+
+test("Should wrap contiguous text", () => {
+  // SETUP
+  const note = {
+    textContent: "This text should be wrapped",
+    htmlContent: "This text should be wrapped",
+  }
+
+  const domString = `
+    <body>
+      <section>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga quod dolorum maxime sint corrupti accusamus praesentium iure ullam? Laboriosam, ipsum beatae! Illo magni neque possimus praesentium vel eum ut dolores?</p>
+        <p>This text should be wrapped</p>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Placeat velit ipsam impedit possimus deserunt? Alias odit rerum iusto earum ducimus, facere optio fugiat magni temporibus, quibusdam recusandae asperiores impedit ipsam!</p>
+      </section>
+    </body>
+  `
+
+  const jsdom = new JSDOM(domString, {
+    url: "http://localhost:3000",
+    contentType: "text/html",
+    includeNodeLocations: true,
+  })
+
+  // ACT
+  wrapTextWithSpan(jsdom.window.document.body, note)
+
+  // ASSERT
+  expect(jsdom.window.document.querySelector("MARK")).toBeTruthy()
+  expect(jsdom.window.document.querySelector("MARK").textContent).contains(
     "This text should be wrapped"
   )
 })
@@ -75,6 +109,7 @@ test("Should correctly wraps text that spans through multiples tags", () => {
   // SETUP
   const note = {
     textContent: "This text should be wrapped",
+    htmlContent: "This text should be wrapped",
   }
 
   const domString = `
@@ -127,6 +162,7 @@ test("Should wrap text and keep its previous styling", () => {
   wrapTextWithSpan(jsdom.window.document.body, note)
 
   // ASSERT
+  expect(jsdom.window.document.querySelector("MARK")).toBeTruthy()
   expect(jsdom.window.document.querySelector("strong").textContent).toBe(
     "should"
   )

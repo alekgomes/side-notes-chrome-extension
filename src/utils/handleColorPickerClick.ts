@@ -1,3 +1,5 @@
+import handleColorSelection from "./handleColorSelection"
+
 const defaultColors = ["#FFFD98", "#BDE4A7", "#9FBBCC", "#7A9CC6"]
 
 export default function handleColorPickerClick(parentNode: HTMLElement) {

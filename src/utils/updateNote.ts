@@ -1,3 +1,5 @@
+import { Note } from "../types"
+
 export default function updateNote(
   noteKey: string,
   noteId: number,
@@ -7,7 +9,7 @@ export default function updateNote(
   chrome.storage.local.get(function (result) {
     const notesArray = result[noteKey]
 
-    const newNotes = notesArray.map((currNote) => {
+    const newNotes = notesArray.map((currNote: Note) => {
       if (currNote.id == noteId) {
         currNote[attr] = newValue
       }

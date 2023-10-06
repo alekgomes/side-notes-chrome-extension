@@ -1,6 +1,5 @@
 import {
   wrapTextWithSpan,
-  scrollToClicked,
   injectIconCssLink,
   removeHighlightFromDeletedNote,
 } from "../utils"
@@ -33,13 +32,21 @@ window.onload = async () => {
     }
   })
 
+  const getHtmlContent = () => {
+    const div = document.createElement("div")
+    const fragment = window.getSelection()?.getRangeAt(0).cloneContents()
+    div.appendChild(fragment)
+
+    return div.innerHTML
+  }
+
   chrome.runtime.onMessage.addListener(
     async ({ type, payload }, _sender, sendResponse) => {
       switch (type) {
         case Type.GET_NOTE_FROM_USER: {
           return sendResponse({
             textContent: window.getSelection()?.toString(),
-            htmlContent: window.getSelection()?.getRangeAt(0).cloneContents(),
+            htmlContent: getHtmlContent(),
             date: Date.now(),
             id: Date.now(),
             color: "#FFFD98",
