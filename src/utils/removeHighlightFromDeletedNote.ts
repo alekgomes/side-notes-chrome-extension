@@ -4,5 +4,5 @@ export default function removeHighlightFromDeletedNote(payload: Note) {
   const deletedNote = document.querySelector(
     `[data-sidenotes-id="${payload.id}"]`
   )
-  deletedNote.classList.add("deleted")
+  deletedNote?.classList.add("deleted")
 }
