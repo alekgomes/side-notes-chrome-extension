@@ -8,6 +8,10 @@
     "scripting",
     "storage"
   ],
+  "icons": {
+    "16": "./sidenotes-logo-w.png",
+    "32": "./sidenotes-logo-w.png"
+  },
   "background": {
     "service_worker": "src/background/service-worker.ts",
     "type": "module"
