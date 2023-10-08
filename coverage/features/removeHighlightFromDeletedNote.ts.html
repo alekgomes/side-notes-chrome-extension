@@ -3,15 +3,15 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for deleteNote.ts</title>
+    <title>Code coverage report for features/removeHighlightFromDeletedNote.ts</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="prettify.css" />
-    <link rel="stylesheet" href="base.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.png" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(sort-arrow-sprite.png);
+            background-image: url(../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="index.html">All files</a> deleteNote.ts</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">features</a> removeHighlightFromDeletedNote.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">18.75% </span>
+                <span class="strong">25% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>3/16</span>
+                <span class='fraction'>2/8</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">18.75% </span>
+                <span class="strong">25% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>3/16</span>
+                <span class='fraction'>2/8</span>
             </div>
         
             
@@ -71,24 +71,8 @@
 <a name='L6'></a><a href='#L6'>6</a>
 <a name='L7'></a><a href='#L7'>7</a>
 <a name='L8'></a><a href='#L8'>8</a>
-<a name='L9'></a><a href='#L9'>9</a>
-<a name='L10'></a><a href='#L10'>10</a>
-<a name='L11'></a><a href='#L11'>11</a>
-<a name='L12'></a><a href='#L12'>12</a>
-<a name='L13'></a><a href='#L13'>13</a>
-<a name='L14'></a><a href='#L14'>14</a>
-<a name='L15'></a><a href='#L15'>15</a>
-<a name='L16'></a><a href='#L16'>16</a>
-<a name='L17'></a><a href='#L17'>17</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L9'></a><a href='#L9'>9</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -96,20 +80,12 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { Note } from "../types"
-import removeHighlightFromDeletedNote from "./removeHighlightFromDeletedNote"
 &nbsp;
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >export default function deleteNote(note: Note) {</span></span>
-<span class="cstat-no" title="statement not covered" >  const key = note.origin</span>
-<span class="cstat-no" title="statement not covered" >  chrome.storage.local.get(function (result) {</span>
-<span class="cstat-no" title="statement not covered" >    const notesArray = result[key]</span>
-<span class="cstat-no" title="statement not covered" >    const filteredNotes = notesArray.filter(</span>
-<span class="cstat-no" title="statement not covered" >      (currNote) =&gt; currNote.id !== note.id</span>
-<span class="cstat-no" title="statement not covered" >    )</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    chrome.storage.local.set({ [key]: filteredNotes }).then(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      removeHighlightFromDeletedNote(note)</span>
-<span class="cstat-no" title="statement not covered" >    })</span>
-<span class="cstat-no" title="statement not covered" >  })</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >export default function removeHighlightFromDeletedNote(payload: Note) {</span></span>
+<span class="cstat-no" title="statement not covered" >  const deletedNote = document.querySelector(</span>
+<span class="cstat-no" title="statement not covered" >    `[data-sidenotes-id="${payload.id}"]`</span>
+<span class="cstat-no" title="statement not covered" >  )</span>
+<span class="cstat-no" title="statement not covered" >  deletedNote?.classList.add("deleted")</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;</pre></td></tr></table></pre>
 
@@ -118,16 +94,16 @@ import removeHighlightFromDeletedNote from "./removeHighlightFromDeletedNote"
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-10-07T15:21:23.722Z
+                at 2023-10-07T22:29:25.020Z
             </div>
-        <script src="prettify.js"></script>
+        <script src="../prettify.js"></script>
         <script>
             window.onload = function () {
                 prettyPrint();
             };
         </script>
-        <script src="sorter.js"></script>
-        <script src="block-navigation.js"></script>
+        <script src="../sorter.js"></script>
+        <script src="../block-navigation.js"></script>
     </body>
 </html>
     

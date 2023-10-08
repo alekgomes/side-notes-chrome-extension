@@ -1,7 +1,7 @@
 import type { Note } from "../types"
-import copyToClipboard from "./copyToClipboard"
+import copyToClipboard from "../features/copyToClipboard"
 import iconFactory from "./iconFactory"
-import deleteNote from "./deleteNote"
+import deleteNote from "../features/deleteNote"
 import handleColorPickerClick from "./handleColorPickerClick"
 
 export default function createHoverBox(highlightNode: HTMLElement, note: Note) {

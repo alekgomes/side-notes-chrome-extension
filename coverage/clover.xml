@@ -1,186 +1,191 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1696692083733" clover="3.2.0">
-  <project timestamp="1696692083734" name="All files">
-    <metrics statements="153" coveredstatements="82" conditionals="8" coveredconditionals="8" methods="10" coveredmethods="5" elements="171" coveredelements="95" complexity="0" loc="153" ncloc="153" packages="1" files="9" classes="9"/>
-    <file name="copyToClipboard.ts" path="/home/alek/Área de Trabalho/SideNotes/src/utils/copyToClipboard.ts">
-      <metrics statements="5" coveredstatements="5" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
-      <line num="1" count="1" type="stmt"/>
-      <line num="2" count="1" type="stmt"/>
-      <line num="3" count="1" type="cond" truecount="1" falsecount="0"/>
-      <line num="4" count="1" type="stmt"/>
-      <line num="5" count="1" type="stmt"/>
-    </file>
-    <file name="createHoverBox.ts" path="/home/alek/Área de Trabalho/SideNotes/src/utils/createHoverBox.ts">
-      <metrics statements="20" coveredstatements="20" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
-      <line num="1" count="1" type="stmt"/>
-      <line num="2" count="1" type="stmt"/>
-      <line num="3" count="1" type="stmt"/>
-      <line num="4" count="1" type="stmt"/>
-      <line num="5" count="1" type="stmt"/>
-      <line num="6" count="1" type="stmt"/>
-      <line num="7" count="6" type="cond" truecount="1" falsecount="0"/>
-      <line num="8" count="6" type="stmt"/>
-      <line num="9" count="6" type="stmt"/>
-      <line num="10" count="6" type="cond" truecount="1" falsecount="0"/>
-      <line num="11" count="1" type="stmt"/>
-      <line num="12" count="6" type="stmt"/>
-      <line num="13" count="6" type="stmt"/>
-      <line num="14" count="6" type="stmt"/>
-      <line num="15" count="6" type="stmt"/>
-      <line num="16" count="6" type="stmt"/>
-      <line num="17" count="6" type="stmt"/>
-      <line num="18" count="6" type="stmt"/>
-      <line num="19" count="6" type="stmt"/>
-      <line num="20" count="6" type="stmt"/>
-    </file>
-    <file name="deleteNote.ts" path="/home/alek/Área de Trabalho/SideNotes/src/utils/deleteNote.ts">
-      <metrics statements="16" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-      <line num="1" count="1" type="stmt"/>
-      <line num="2" count="1" type="stmt"/>
-      <line num="3" count="1" type="stmt"/>
-      <line num="4" count="0" type="stmt"/>
-      <line num="5" count="0" type="stmt"/>
-      <line num="6" count="0" type="stmt"/>
-      <line num="7" count="0" type="stmt"/>
-      <line num="8" count="0" type="stmt"/>
-      <line num="9" count="0" type="stmt"/>
-      <line num="10" count="0" type="stmt"/>
-      <line num="11" count="0" type="stmt"/>
-      <line num="12" count="0" type="stmt"/>
-      <line num="13" count="0" type="stmt"/>
-      <line num="14" count="0" type="stmt"/>
-      <line num="15" count="0" type="stmt"/>
-      <line num="16" count="0" type="stmt"/>
-    </file>
-    <file name="handleColorPickerClick.ts" path="/home/alek/Área de Trabalho/SideNotes/src/utils/handleColorPickerClick.ts">
-      <metrics statements="20" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-      <line num="1" count="1" type="stmt"/>
-      <line num="2" count="1" type="stmt"/>
-      <line num="3" count="1" type="stmt"/>
-      <line num="4" count="1" type="stmt"/>
-      <line num="5" count="0" type="stmt"/>
-      <line num="6" count="0" type="stmt"/>
-      <line num="7" count="0" type="stmt"/>
-      <line num="8" count="0" type="stmt"/>
-      <line num="9" count="0" type="stmt"/>
-      <line num="10" count="0" type="stmt"/>
-      <line num="11" count="0" type="stmt"/>
-      <line num="12" count="0" type="stmt"/>
-      <line num="13" count="0" type="stmt"/>
-      <line num="14" count="0" type="stmt"/>
-      <line num="15" count="0" type="stmt"/>
-      <line num="16" count="0" type="stmt"/>
-      <line num="17" count="0" type="stmt"/>
-      <line num="18" count="0" type="stmt"/>
-      <line num="19" count="0" type="stmt"/>
-      <line num="20" count="0" type="stmt"/>
-    </file>
-    <file name="handleColorSelection.ts" path="/home/alek/Área de Trabalho/SideNotes/src/utils/handleColorSelection.ts">
-      <metrics statements="17" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-      <line num="1" count="1" type="stmt"/>
-      <line num="2" count="1" type="stmt"/>
-      <line num="3" count="0" type="stmt"/>
-      <line num="4" count="0" type="stmt"/>
-      <line num="5" count="0" type="stmt"/>
-      <line num="6" count="0" type="stmt"/>
-      <line num="7" count="0" type="stmt"/>
-      <line num="8" count="0" type="stmt"/>
-      <line num="9" count="0" type="stmt"/>
-      <line num="10" count="0" type="stmt"/>
-      <line num="11" count="0" type="stmt"/>
-      <line num="12" count="0" type="stmt"/>
-      <line num="13" count="0" type="stmt"/>
-      <line num="14" count="0" type="stmt"/>
-      <line num="15" count="0" type="stmt"/>
-      <line num="16" count="0" type="stmt"/>
-      <line num="17" count="0" type="stmt"/>
-    </file>
-    <file name="iconFactory.ts" path="/home/alek/Área de Trabalho/SideNotes/src/utils/iconFactory.ts">
-      <metrics statements="6" coveredstatements="6" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
-      <line num="1" count="18" type="cond" truecount="1" falsecount="0"/>
-      <line num="2" count="18" type="stmt"/>
-      <line num="3" count="18" type="stmt"/>
-      <line num="4" count="18" type="stmt"/>
-      <line num="5" count="18" type="stmt"/>
-      <line num="6" count="18" type="stmt"/>
-    </file>
-    <file name="removeHighlightFromDeletedNote.ts" path="/home/alek/Área de Trabalho/SideNotes/src/utils/removeHighlightFromDeletedNote.ts">
-      <metrics statements="8" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-      <line num="1" count="1" type="stmt"/>
-      <line num="2" count="1" type="stmt"/>
-      <line num="3" count="0" type="stmt"/>
-      <line num="4" count="0" type="stmt"/>
-      <line num="5" count="0" type="stmt"/>
-      <line num="6" count="0" type="stmt"/>
-      <line num="7" count="0" type="stmt"/>
-      <line num="8" count="0" type="stmt"/>
-    </file>
-    <file name="updateNote.ts" path="/home/alek/Área de Trabalho/SideNotes/src/utils/updateNote.ts">
-      <metrics statements="23" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-      <line num="1" count="1" type="stmt"/>
-      <line num="2" count="1" type="stmt"/>
-      <line num="3" count="0" type="stmt"/>
-      <line num="4" count="0" type="stmt"/>
-      <line num="5" count="0" type="stmt"/>
-      <line num="6" count="0" type="stmt"/>
-      <line num="7" count="0" type="stmt"/>
-      <line num="8" count="0" type="stmt"/>
-      <line num="9" count="0" type="stmt"/>
-      <line num="10" count="0" type="stmt"/>
-      <line num="11" count="0" type="stmt"/>
-      <line num="12" count="0" type="stmt"/>
-      <line num="13" count="0" type="stmt"/>
-      <line num="14" count="0" type="stmt"/>
-      <line num="15" count="0" type="stmt"/>
-      <line num="16" count="0" type="stmt"/>
-      <line num="17" count="0" type="stmt"/>
-      <line num="18" count="0" type="stmt"/>
-      <line num="19" count="0" type="stmt"/>
-      <line num="20" count="0" type="stmt"/>
-      <line num="21" count="0" type="stmt"/>
-      <line num="22" count="0" type="stmt"/>
-      <line num="23" count="0" type="stmt"/>
-    </file>
-    <file name="wrapTextWithSpan.ts" path="/home/alek/Área de Trabalho/SideNotes/src/utils/wrapTextWithSpan.ts">
-      <metrics statements="38" coveredstatements="38" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
-      <line num="1" count="1" type="stmt"/>
-      <line num="2" count="1" type="stmt"/>
-      <line num="3" count="1" type="stmt"/>
-      <line num="4" count="1" type="cond" truecount="1" falsecount="0"/>
-      <line num="5" count="5" type="stmt"/>
-      <line num="6" count="5" type="stmt"/>
-      <line num="7" count="5" type="stmt"/>
-      <line num="8" count="5" type="stmt"/>
-      <line num="9" count="5" type="stmt"/>
-      <line num="10" count="5" type="stmt"/>
-      <line num="11" count="5" type="stmt"/>
-      <line num="12" count="5" type="stmt"/>
-      <line num="13" count="5" type="stmt"/>
-      <line num="14" count="5" type="stmt"/>
-      <line num="15" count="5" type="cond" truecount="1" falsecount="0"/>
-      <line num="16" count="19" type="stmt"/>
-      <line num="17" count="19" type="stmt"/>
-      <line num="18" count="19" type="cond" truecount="1" falsecount="0"/>
-      <line num="19" count="10" type="stmt"/>
-      <line num="20" count="10" type="stmt"/>
-      <line num="21" count="19" type="stmt"/>
-      <line num="22" count="5" type="stmt"/>
-      <line num="23" count="5" type="stmt"/>
-      <line num="24" count="5" type="stmt"/>
-      <line num="25" count="1" type="stmt"/>
-      <line num="26" count="4" type="cond" truecount="1" falsecount="0"/>
-      <line num="27" count="4" type="stmt"/>
-      <line num="28" count="4" type="stmt"/>
-      <line num="29" count="4" type="stmt"/>
-      <line num="30" count="4" type="stmt"/>
-      <line num="31" count="4" type="stmt"/>
-      <line num="32" count="4" type="stmt"/>
-      <line num="33" count="4" type="stmt"/>
-      <line num="34" count="4" type="stmt"/>
-      <line num="35" count="4" type="stmt"/>
-      <line num="36" count="4" type="stmt"/>
-      <line num="37" count="4" type="stmt"/>
-      <line num="38" count="4" type="stmt"/>
-    </file>
+<coverage generated="1696717765032" clover="3.2.0">
+  <project timestamp="1696717765032" name="All files">
+    <metrics statements="152" coveredstatements="89" conditionals="9" coveredconditionals="9" methods="10" coveredmethods="6" elements="171" coveredelements="104" complexity="0" loc="152" ncloc="152" packages="2" files="9" classes="9"/>
+    <package name="features">
+      <metrics statements="89" coveredstatements="57" conditionals="6" coveredconditionals="6" methods="6" coveredmethods="4"/>
+      <file name="copyToClipboard.ts" path="/home/alek/Área de Trabalho/SideNotes/src/features/copyToClipboard.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+      </file>
+      <file name="deleteNote.ts" path="/home/alek/Área de Trabalho/SideNotes/src/features/deleteNote.ts">
+        <metrics statements="15" coveredstatements="10" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+      </file>
+      <file name="removeHighlightFromDeletedNote.ts" path="/home/alek/Área de Trabalho/SideNotes/src/features/removeHighlightFromDeletedNote.ts">
+        <metrics statements="8" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+      </file>
+      <file name="updateNote.ts" path="/home/alek/Área de Trabalho/SideNotes/src/features/updateNote.ts">
+        <metrics statements="23" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+      </file>
+      <file name="wrapTextWithSpan.ts" path="/home/alek/Área de Trabalho/SideNotes/src/features/wrapTextWithSpan.ts">
+        <metrics statements="38" coveredstatements="38" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="5" count="5" type="stmt"/>
+        <line num="6" count="5" type="stmt"/>
+        <line num="7" count="5" type="stmt"/>
+        <line num="8" count="5" type="stmt"/>
+        <line num="9" count="5" type="stmt"/>
+        <line num="10" count="5" type="stmt"/>
+        <line num="11" count="5" type="stmt"/>
+        <line num="12" count="5" type="stmt"/>
+        <line num="13" count="5" type="stmt"/>
+        <line num="14" count="5" type="stmt"/>
+        <line num="15" count="5" type="cond" truecount="1" falsecount="0"/>
+        <line num="16" count="19" type="stmt"/>
+        <line num="17" count="19" type="stmt"/>
+        <line num="18" count="19" type="cond" truecount="1" falsecount="0"/>
+        <line num="19" count="10" type="stmt"/>
+        <line num="20" count="10" type="stmt"/>
+        <line num="21" count="19" type="stmt"/>
+        <line num="22" count="5" type="stmt"/>
+        <line num="23" count="5" type="stmt"/>
+        <line num="24" count="5" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="4" type="cond" truecount="1" falsecount="0"/>
+        <line num="27" count="4" type="stmt"/>
+        <line num="28" count="4" type="stmt"/>
+        <line num="29" count="4" type="stmt"/>
+        <line num="30" count="4" type="stmt"/>
+        <line num="31" count="4" type="stmt"/>
+        <line num="32" count="4" type="stmt"/>
+        <line num="33" count="4" type="stmt"/>
+        <line num="34" count="4" type="stmt"/>
+        <line num="35" count="4" type="stmt"/>
+        <line num="36" count="4" type="stmt"/>
+        <line num="37" count="4" type="stmt"/>
+        <line num="38" count="4" type="stmt"/>
+      </file>
+    </package>
+    <package name="utils">
+      <metrics statements="63" coveredstatements="32" conditionals="3" coveredconditionals="3" methods="4" coveredmethods="2"/>
+      <file name="createHoverBox.ts" path="/home/alek/Área de Trabalho/SideNotes/src/utils/createHoverBox.ts">
+        <metrics statements="20" coveredstatements="20" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="6" type="cond" truecount="1" falsecount="0"/>
+        <line num="8" count="6" type="stmt"/>
+        <line num="9" count="6" type="stmt"/>
+        <line num="10" count="6" type="cond" truecount="1" falsecount="0"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="6" type="stmt"/>
+        <line num="13" count="6" type="stmt"/>
+        <line num="14" count="6" type="stmt"/>
+        <line num="15" count="6" type="stmt"/>
+        <line num="16" count="6" type="stmt"/>
+        <line num="17" count="6" type="stmt"/>
+        <line num="18" count="6" type="stmt"/>
+        <line num="19" count="6" type="stmt"/>
+        <line num="20" count="6" type="stmt"/>
+      </file>
+      <file name="handleColorPickerClick.ts" path="/home/alek/Área de Trabalho/SideNotes/src/utils/handleColorPickerClick.ts">
+        <metrics statements="20" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+      </file>
+      <file name="handleColorSelection.ts" path="/home/alek/Área de Trabalho/SideNotes/src/utils/handleColorSelection.ts">
+        <metrics statements="17" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+      </file>
+      <file name="iconFactory.ts" path="/home/alek/Área de Trabalho/SideNotes/src/utils/iconFactory.ts">
+        <metrics statements="6" coveredstatements="6" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <line num="1" count="18" type="cond" truecount="1" falsecount="0"/>
+        <line num="2" count="18" type="stmt"/>
+        <line num="3" count="18" type="stmt"/>
+        <line num="4" count="18" type="stmt"/>
+        <line num="5" count="18" type="stmt"/>
+        <line num="6" count="18" type="stmt"/>
+      </file>
+    </package>
   </project>
 </coverage>

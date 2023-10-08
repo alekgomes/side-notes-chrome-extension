@@ -39,11 +39,5 @@ As a browser extension, Sidenotes works mainly based on events provided by an me
 ![Messaging API](assets/image.png)
 
 
-## Known bugs
 
-At the moment, SideNotes has problems wrapping text that expand to multiple DOM elements, that means that the following HTML will not be highlighted (but will be saved at extesion's localStorage):
-
-`<p>I'm a normal text but <strong>here's a bold text</strong></p>`
-
-The above will not be highlighted since the current version of the code cannot deal with texts that spans through multiple DOM nodes. 
 

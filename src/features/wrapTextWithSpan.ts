@@ -1,5 +1,5 @@
 import type { Note } from "../types"
-import createHoverBox from "./createHoverBox"
+import createHoverBox from "../utils/createHoverBox"
 
 export const findParentNode = (
   rootNode: HTMLElement,

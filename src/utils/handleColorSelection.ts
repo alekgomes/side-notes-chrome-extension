@@ -1,4 +1,4 @@
-import updateNote from "./updateNote"
+import updateNote from "../features/updateNote"
 
 export default function handleColorSelection(event: Event) {
   const { target } = event
