@@ -5,7 +5,6 @@
   "permissions": [
     "activeTab",
     "contextMenus",
-    "scripting",
     "storage"
   ],
   "icons": {
