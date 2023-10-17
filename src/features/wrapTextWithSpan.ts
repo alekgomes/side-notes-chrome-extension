@@ -3,7 +3,6 @@ import { createHoverBox, findParentNode } from "../utils"
 
 
 export default function wrapTextWithSpan(rootNode: HTMLElement, note: Note) {
-  console.log("wrapTextWithSpan")
   const node = findParentNode(rootNode, note)
   const innerHTML = node.innerHTML
   const index = innerHTML.indexOf(note.htmlContent)
@@ -12,7 +11,7 @@ export default function wrapTextWithSpan(rootNode: HTMLElement, note: Note) {
 
   node.innerHTML = `${htmlBefore}<mark data-sidenotes-id=${note.id} style="background-color:${note.color} " class="sidenote-highlight">${note.htmlContent}</mark>${htmlAfter}`
 
-  const highlight = node.querySelector("mark")
+  const highlight = node.querySelector("mark")!
   const hoverBox = createHoverBox(highlight, note)
   highlight?.appendChild(hoverBox)
 }

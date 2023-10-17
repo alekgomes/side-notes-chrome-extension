@@ -34,7 +34,7 @@ window.onload = async () => {
 
   const getHtmlContent = () => {
     const div = document.createElement("div")
-    const fragment = window.getSelection()?.getRangeAt(0).cloneContents()
+    const fragment = window.getSelection()?.getRangeAt(0).cloneContents()!
     div.appendChild(fragment)
 
     return div.innerHTML
