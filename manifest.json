@@ -18,6 +18,16 @@
     "service_worker": "src/background/service-worker.ts",
     "type": "module"
   },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "/icons/*.svg"
+      ],
+      "matches": [
+        "*://*/*"
+      ]
+    }
+  ],
   "content_scripts": [
     {
       "matches": [

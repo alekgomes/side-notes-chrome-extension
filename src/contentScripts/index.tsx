@@ -1,8 +1,4 @@
-import {
-  wrapTextWithSpan,
-  injectIconCssLink,
-  removeHighlightFromDeletedNote,
-} from "../utils"
+import { wrapTextWithSpan, removeHighlightFromDeletedNote } from "../utils"
 import Type from "../enums"
 
 import "./style.css"
@@ -11,8 +7,6 @@ import "./style.css"
 // https://github.com/aklinker1/vite-plugin-web-extension/issues/118#issuecomment-1588132764
 
 window.onload = async () => {
-  injectIconCssLink()
-
   chrome.storage.local.get(function (result) {
     if (result.hasOwnProperty(window.origin)) {
       result[window.origin].map(async (note: any) => {
