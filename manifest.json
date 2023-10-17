@@ -9,7 +9,10 @@
   ],
   "icons": {
     "16": "./sidenotes-logo-w.png",
-    "32": "./sidenotes-logo-w.png"
+    "32": "./sidenotes-logo-w.png",
+    "48": "./sidenotes-logo-w.png",
+    "128": "./sidenotes-logo-w.png"
+
   },
   "background": {
     "service_worker": "src/background/service-worker.ts",
