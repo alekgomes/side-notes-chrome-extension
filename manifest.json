@@ -8,10 +8,10 @@
     "storage"
   ],
   "icons": {
-    "16": "./sidenotes-logo-w.png",
-    "32": "./sidenotes-logo-w.png",
-    "48": "./sidenotes-logo-w.png",
-    "128": "./sidenotes-logo-w.png"
+    "16": "./sidenotes-logo.png",
+    "32": "./sidenotes-logo.png",
+    "48": "./sidenotes-logo.png",
+    "128": "./sidenotes-logo.png"
 
   },
   "background": {

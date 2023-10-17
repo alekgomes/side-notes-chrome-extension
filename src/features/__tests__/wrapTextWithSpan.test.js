@@ -2,9 +2,18 @@
  * @jest-environment jsdom
  */
 
-import { expect, test } from "vitest"
-import wrapTextWithSpan, { findParentNode } from "../wrapTextWithSpan"
+import { expect, test, vi } from "vitest"
+import wrapTextWithSpan from "../wrapTextWithSpan"
+import { findParentNode } from "../../utils"
 import { JSDOM } from "jsdom"
+
+const chromeMock = {
+  runtime: {
+    getURL: vi.fn(),
+  },
+}
+
+vi.stubGlobal("chrome", chromeMock)
 
 test("Should return the correct parent node of the provided text", () => {
   // SETUP

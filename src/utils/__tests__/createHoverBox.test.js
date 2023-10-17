@@ -26,13 +26,21 @@ const jsdom = new JSDOM(domString, {
 
 vi.mock("../handleColorPickerClick")
 
+const chromeMock = {
+  runtime: {
+    getURL: vi.fn(),
+  },
+}
+
+vi.stubGlobal("chrome", chromeMock)
+
 test("It should return div with the three icons inside", () => {
   // SETUP
   const highlightNode = jsdom.window.document.querySelector("mark")
   // ACT
   const hoverBox = createHoverBox(highlightNode, note)
   // ASSERT
-  const icons = hoverBox.querySelectorAll("i")
+  const icons = hoverBox.querySelectorAll("img")
   expect(icons.length).toBe(3)
 })
 
