@@ -1,29 +1,9 @@
 import type { Note } from "../types"
-import createHoverBox from "../utils/createHoverBox"
+import { createHoverBox, findParentNode } from "../utils"
 
-export const findParentNode = (
-  rootNode: HTMLElement,
-  note: Note
-): HTMLElement => {
-  const treeWalker = document.createTreeWalker(
-    rootNode,
-    NodeFilter.SHOW_ELEMENT
-  )
-
-  let parentNode: HTMLElement = document.createElement("p")
-
-  while (treeWalker.nextNode()) {
-    const currentNode = treeWalker.currentNode as HTMLElement
-
-    if (currentNode.textContent?.includes(note.textContent)) {
-      parentNode = currentNode
-    }
-  }
-
-  return parentNode
-}
 
 export default function wrapTextWithSpan(rootNode: HTMLElement, note: Note) {
+  console.log("wrapTextWithSpan")
   const node = findParentNode(rootNode, note)
   const innerHTML = node.innerHTML
   const index = innerHTML.indexOf(note.htmlContent)

@@ -1,4 +1,6 @@
+export { default as createHoverBox } from "./createHoverBox"
 export { default as deleteNote } from "../features/deleteNote"
+export { default as findParentNode } from "./findParentNode"
 export { default as handleColorPickerClick } from "./handleColorPickerClick"
 export { default as injectIconCssLink } from "./injectIconCssLink"
 export { default as updateNote } from "../features/updateNote"
