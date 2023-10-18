@@ -14,7 +14,10 @@ export default function findParentNode(
   while (treeWalker.nextNode()) {
     const currentNode = treeWalker.currentNode as HTMLElement
 
-    if (currentNode.textContent?.includes(note.textContent)) {
+    if (
+      currentNode.textContent?.includes(note.textContent) &&
+      currentNode.tagName !== "SCRIPT"
+    ) {
       parentNode = currentNode
     }
   }

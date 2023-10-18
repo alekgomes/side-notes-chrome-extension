@@ -7,7 +7,7 @@ import handleColorPickerClick from "./handleColorPickerClick"
 
 export default function createHoverBox(highlightNode: HTMLElement, note: Note) {
   const hoverDiv = document.createElement("div")
-  const trashIcon = iconFactory("icons/trash-icon.svg", "gg-trash", () =>
+  const trashIcon = iconFactory("icons/trash.svg", "gg-trash", () =>
     deleteNote(note)
   )
   const colorIcon = iconFactory(
