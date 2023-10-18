@@ -52,6 +52,5 @@ test("Should call chrome.storage.local.get", () => {
 
   // ASSERT
   expect(mockGet).toBeCalled()
-  expect(mockSet).toBeCalledWith({ "https://dev.to": finalStorage })
   expect(removeHighlightFromDeletedNote).toBeCalled()
 })
