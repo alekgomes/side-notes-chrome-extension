@@ -26,12 +26,11 @@ window.onload = async () => {
     }
   })
 
-  const getHtmlContent = () => {
-    const div = document.createElement("div")
-    const fragment = window.getSelection()?.getRangeAt(0).cloneContents()!
-    div.appendChild(fragment)
-
-    return div.innerHTML
+  const getHtmlContent = () => {    
+    const selection = window.getSelection()
+    const parentNode = selection?.focusNode?.parentNode
+    console.log("parentNode", parentNode)
+    return parentNode.outerHTML
   }
 
   chrome.runtime.onMessage.addListener(
