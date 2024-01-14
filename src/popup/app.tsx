@@ -99,7 +99,6 @@ export function App() {
   //   console.log(debouncedRequestFilteredData)
   // }
 
-  console.log("notes: ", notes)
   return (
     <SaguProvider theme={theme}>
       <SaguGlobalStyles />

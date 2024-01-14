@@ -33,7 +33,7 @@
         "*://*/*"
       ],
       "js": [
-        "src/contentScripts/index.tsx"
+        "src/contentScripts/index.js"
       ]
 
     }
