@@ -33,15 +33,8 @@ export default function findParentNode(rootNode, note) {
 
   let foundNodes = [];
 
-  parsedHtmlContent.forEach((node) => {
-    if (node.nodeType == 3) {
-      console.log(node.textContent.trim());
-    }
-  });
-
   while (treeWalker.nextNode()) {
     let currentNode = treeWalker.currentNode;
-    console.log("currentNode", currentNode.nodeType, currentNode.textContent);
     parsedHtmlContent.forEach((el) => {
       if (isSameNode(currentNode, el)) {
         foundNodes.push(currentNode);

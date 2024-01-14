@@ -63,15 +63,18 @@ beforeEach(function buildDOM() {
   });
 });
 
-test.skip("It should return DOM nodes that matches the note's htmlContent for SINGLE element", () => {
+test("It should return DOM nodes that matches the note's htmlContent for SINGLE element", () => {
   // ACT
   const result = findParentNode(jsdom.window.document.body, noteSingleElement);
 
   // ASSERT
   expect(result[0].tagName).equal(`P`);
+  expect(result[0].textContent.trim()).equal(
+    noteSingleElement.textContent.trim(),
+  );
 });
 
-test.skip("It should return DOM nodes that matches the note's htmlContent for MULTIPLE elements", () => {
+test("It should return DOM nodes that matches the note's htmlContent for MULTIPLE elements", () => {
   // ACT
   const result = findParentNode(
     jsdom.window.document.body,
@@ -80,7 +83,11 @@ test.skip("It should return DOM nodes that matches the note's htmlContent for MU
 
   // ASSERT
   expect(result[0].tagName).equal(`H1`);
+  expect(result[0].textContent).equal("Let’s build from here");
   expect(result[1].tagName).equal(`P`);
+  expect(result[1].textContent.trim()).equal(
+    "The world’s leading AI-powered developer platform.",
+  );
 });
 
 test("It should correctly return partial text containing HTML nodes", () => {
