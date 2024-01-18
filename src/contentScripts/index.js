@@ -41,8 +41,8 @@ window.onload = async () => {
   chrome.storage.local.get(function (result) {
     if (result.hasOwnProperty(window.origin)) {
       result[window.origin].map(async (note) => {
-        const nodes = findParentNode(document.body, note);
-        nodes.forEach((node) => wrapTextWithSpan(node, note));
+        const node = findParentNode(document.body, note);
+        wrapTextWithSpan(node, note);
 
         if (note.clicked) {
           const element = document.querySelector(

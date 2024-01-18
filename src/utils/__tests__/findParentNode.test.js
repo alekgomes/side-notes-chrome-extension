@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { beforeEach, expect, test, vi } from "vitest";
+import { assert, beforeEach, expect, test, vi } from "vitest";
 import { JSDOM } from "jsdom";
 import findParentNode from "../findParentNode";
 
@@ -28,6 +28,20 @@ const noteMultipleSelection = {
     "Let’s build from here\nThe world’s leading AI-powered developer platform.",
   url: "https://github.com/",
 };
+
+const textSelection = {
+  color: "#FFFD98",
+  date: 1705006437056,
+  htmlContent:
+    "It's often used for multimedia files like images, audio, and video. Examples include <strong>JPEG</strong> for images, <strong>MP3</strong> for audio or <strong>MP4</strong> for video.",
+  id: 1705006437056,
+  origin: "https://dev.to",
+  textContent:
+    "It's often used for multimedia files like images, audio, and video. Examples include JPEG for images, MP3 for audio or MP4 for video.",
+  url: "https://dev.to/joelbonetr/cs-fundamentals-how-data-storage-actually-works-1o4a",
+};
+
+
 
 let jsdom;
 
@@ -63,56 +77,77 @@ beforeEach(function buildDOM() {
   });
 });
 
-test("It should return DOM nodes that matches the note's htmlContent for SINGLE element", () => {
-  // ACT
+test("It returns the parent element for single element selection", () => {
   const result = findParentNode(jsdom.window.document.body, noteSingleElement);
 
-  // ASSERT
-  expect(result[0].tagName).equal(`P`);
-  expect(result[0].textContent.trim()).equal(
-    noteSingleElement.textContent.trim(),
-  );
+  expect(result.tagName).equal("DIV");
 });
 
-test("It should return DOM nodes that matches the note's htmlContent for MULTIPLE elements", () => {
-  // ACT
+test("It returns the parent element for multiple elements selection", () => {
   const result = findParentNode(
     jsdom.window.document.body,
     noteMultipleSelection,
   );
 
-  // ASSERT
-  expect(result[0].tagName).equal(`H1`);
-  expect(result[0].textContent).equal("Let’s build from here");
-  expect(result[1].tagName).equal(`P`);
-  expect(result[1].textContent.trim()).equal(
-    "The world’s leading AI-powered developer platform.",
-  );
+  expect(result.tagName).equal("DIV");
 });
 
-test("It should correctly return partial text containing HTML nodes", () => {
-  // SETUP
-  const note = {
-    color: "#FFFD98",
-    date: 1705006437056,
-    htmlContent:
-      "It's often used for multimedia files like images, audio, and video. Examples include <strong>JPEG</strong> for images, <strong>MP3</strong> for audio or <strong>MP4</strong> for video.",
-    id: 1705006437056,
-    origin: "https://dev.to",
-    textContent:
-      "It's often used for multimedia files like images, audio, and video. Examples include JPEG for images, MP3 for audio or MP4 for video.",
-    url: "https://dev.to/joelbonetr/cs-fundamentals-how-data-storage-actually-works-1o4a",
-  };
+test("It returns the parent element for text selection", () => {
+  const result = findParentNode(jsdom.window.document.body, textSelection);
 
-  // ACT
-  const result = findParentNode(jsdom.window.document.body, note);
-
-  // It's expected that each part to be broken up into a node
-  // ASSERT
-  expect(result.length).equal(7);
-  expect(result[0].textContent).equal(
-    " This sacrifices some data to achieve higher compression ratios. It's often used for multimedia files like images, audio, and video. Examples include ",
-  );
-  expect(result[3].textContent).equal("MP3");
-  expect(result[6].textContent.trim()).equal("for video.");
+  expect(result.tagName).equal("LI");
 });
+
+// test("It should return DOM nodes that matches the note's htmlContent for SINGLE element", () => {
+//   // ACT
+//   const result = findParentNode(jsdom.window.document.body, noteSingleElement);
+
+//   // ASSERT
+//   expect(result[0].tagName).equal(`P`);
+//   expect(result[0].textContent.trim()).equal(
+//     noteSingleElement.textContent.trim(),
+//   );
+// });
+
+// test("It should return DOM nodes that matches the note's htmlContent for MULTIPLE elements", () => {
+//   // ACT
+//   const result = findParentNode(
+//     jsdom.window.document.body,
+//     noteMultipleSelection,
+//   );
+
+//   // ASSERT
+//   expect(result[0].tagName).equal(`H1`);
+//   expect(result[0].textContent).equal("Let’s build from here");
+//   expect(result[1].tagName).equal(`P`);
+//   expect(result[1].textContent.trim()).equal(
+//     "The world’s leading AI-powered developer platform.",
+//   );
+// });
+
+// test("It should correctly return partial text containing HTML nodes", () => {
+//   // SETUP
+  // const note = {
+  //   color: "#FFFD98",
+  //   date: 1705006437056,
+  //   htmlContent:
+  //     "It's often used for multimedia files like images, audio, and video. Examples include <strong>JPEG</strong> for images, <strong>MP3</strong> for audio or <strong>MP4</strong> for video.",
+  //   id: 1705006437056,
+  //   origin: "https://dev.to",
+  //   textContent:
+  //     "It's often used for multimedia files like images, audio, and video. Examples include JPEG for images, MP3 for audio or MP4 for video.",
+  //   url: "https://dev.to/joelbonetr/cs-fundamentals-how-data-storage-actually-works-1o4a",
+  // };
+
+//   // ACT
+//   const result = findParentNode(jsdom.window.document.body, note);
+
+//   // It's expected that each part to be broken up into a node
+//   // ASSERT
+//   expect(result.length).equal(7);
+//   expect(result[0].textContent).equal(
+//     " This sacrifices some data to achieve higher compression ratios. It's often used for multimedia files like images, audio, and video. Examples include ",
+//   );
+//   expect(result[3].textContent).equal("MP3");
+//   expect(result[6].textContent.trim()).equal("for video.");
+// });

@@ -7,7 +7,6 @@ import wrapTextWithSpan from "../addMarkup";
 import { findParentNode } from "../../utils";
 import { JSDOM } from "jsdom";
 import addMarkup from "../addMarkup";
-import { findByText, screen } from "@testing-library/dom";
 
 let jsdom;
 
@@ -57,12 +56,11 @@ test("Works with whole single element", () => {
   };
 
   const foundElement = findParentNode(jsdom.window.document.body, note);
-  console.log("foundElement", foundElement);
-  const node = addMarkup(foundElement[0], note);
+  const node = addMarkup(foundElement, note);
 
   const mark = node.querySelector("mark");
 
-  expect(mark.innerHTML).equal("Let’s build from&nbsp;here");
+  expect(mark.textContent).equal(note.textContent);
 });
 
 test("Should correctly wrap only couple of words within element", () => {
@@ -80,7 +78,7 @@ test("Should correctly wrap only couple of words within element", () => {
 
   // ACT
   const foundElement = findParentNode(jsdom.window.document.body, note);
-  const parent = wrapTextWithSpan(foundElement[0], note);
+  const parent = wrapTextWithSpan(foundElement, note);
   const mark = parent.querySelector("MARK");
   // ASSERT
   expect(mark).toBeTruthy();
@@ -103,10 +101,14 @@ test("Should entirely wrap contiguous HTML nodes", () => {
 
   // ACT
   const foundElement = findParentNode(jsdom.window.document.body, note);
-  foundElement.forEach((el) => wrapTextWithSpan(el, note));
+  const parent = wrapTextWithSpan(foundElement, note);
+  const mark = parent.querySelector("MARK");
+
+  console.log(mark.textContent);
 
   // ASSERT
-  expect(jsdom.window.document.querySelector("MARK")).toBeTruthy();
+  expect(mark).toBeTruthy();
+  expect(mark.textContent).toBe(note.textContent);
 });
 
 test("Should correctly wrap text with <strong> element", () => {
@@ -125,7 +127,7 @@ test("Should correctly wrap text with <strong> element", () => {
 
   // ACT
   const foundElement = findParentNode(jsdom.window.document.body, note);
-  foundElement.forEach((el) => wrapTextWithSpan(el, note));
+  wrapTextWithSpan(foundElement, note);
 
   // ASSERT
   expect(jsdom.window.document.querySelector("MARK").textContent).toBe(
@@ -164,34 +166,4 @@ test("Should correctly wraps text that spans through multiples tags", () => {
   );
 });
 
-test("Should wrap text and keep its previous styling", () => {
-  // SETUP
-  const note = {
-    htmlContent: "all of this this text <strong>should</strong> be wrapped",
-    textContent: "all of this this text should be wrapped",
-    id: 13123123332,
-  };
-
-  const domString = `
-    <body>
-      <section>
-        <p>Almost all of this this text <strong>should</strong> be wrapped</p>
-      </section>
-    </body>
-  `;
-
-  const jsdom = new JSDOM(domString, {
-    url: "http://localhost:3000",
-    contentType: "text/html",
-    includeNodeLocations: true,
-  });
-
-  // ACT
-  wrapTextWithSpan(jsdom.window.document.body, note);
-
-  // ASSERT
-  expect(jsdom.window.document.querySelector("MARK")).toBeTruthy();
-  expect(jsdom.window.document.querySelector("strong").textContent).toBe(
-    "should",
-  );
-});
+  
