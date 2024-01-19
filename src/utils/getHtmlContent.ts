@@ -1,9 +1,14 @@
-export default function getHtmlContent(context = window) {
-  const selection = context.window.getSelection();
-  const div = document.createElement("div");
-  const range = selection.getRangeAt(0);
-  const content = range.cloneContents();
-  div.append(content);
+export default function getHtmlContent(ctx = window) {
+  var selection = ctx.getSelection();
+  var range = selection?.getRangeAt(0);
+  var content = range?.cloneContents();
+  var nodes = Array.from(content?.childNodes);
+  var filteredNodes = nodes.filter((node) => Boolean(node.textContent?.trim()));
+  var mappedNodes = filteredNodes.map((node) => {
+    return { nodeName: node.nodeName, textContent: node.textContent?.trim() };
+  });
+
+  return mappedNodes;
 
   // When select a single element, the innertHtml will return
   // only the text for that element.
