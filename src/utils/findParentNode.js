@@ -1,19 +1,8 @@
-const isSameNode = (currentNode, searchingNode) => {
+const isSameNode = (currentNode, noteContent) => {
   return (
-    currentNode.tagName == searchingNode.tagName &&
-    currentNode.textContent?.trim().includes(searchingNode.textContent?.trim())
+    // currentNode.nodeName == noteContent.nodeName &&
+    currentNode.textContent?.trim().includes(noteContent.textContent?.trim())
   );
-};
-
-const includesNode = (currentNode, note) => {
-  console.log(
-    currentNode.innerHTML.trim().length,
-    "||",
-    note.htmlContent.trim().length,
-    "\n\n",
-  );
-
-  return currentNode.innerHTML.includes(note.htmlContent);
 };
 
 export default function findParentNode(rootNode, note) {
@@ -33,20 +22,14 @@ export default function findParentNode(rootNode, note) {
     },
   );
 
-  const parser = new DOMParser();
-  const parsedHtmlContent = Array.from(
-    parser.parseFromString(note.htmlContent, "text/html").body.childNodes,
-  );
-  // console.log("parsedHtmlContent", parsedHtmlContent[0].innerHTML);
-
   let parentNode;
 
   while (treeWalker.nextNode()) {
     let currentNode = treeWalker.currentNode;
 
-    parsedHtmlContent.forEach((el) => {
-      if (isSameNode(currentNode, el)) {
-        parentNode = currentNode.parentNode;
+    note.htmlContent.forEach((noteContent) => {
+      if (isSameNode(currentNode, noteContent)) {
+        parentNode = currentNode;
       }
     });
   }

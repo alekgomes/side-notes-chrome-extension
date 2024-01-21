@@ -9,16 +9,4 @@ export default function getHtmlContent(ctx = window) {
   });
 
   return mappedNodes;
-
-  // When select a single element, the innertHtml will return
-  // only the text for that element.
-  // The following handles selection of multiples tags selection
-  // inside the if statement and single element selections
-  // inside the else statement.
-  const fragmentContainsTag = Boolean(div.children[0]?.tagName);
-  if (fragmentContainsTag) {
-    return div.innerHTML;
-  } else {
-    return selection?.focusNode?.parentElement.outerHTML;
-  }
 }

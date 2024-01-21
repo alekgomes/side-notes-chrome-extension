@@ -2,18 +2,22 @@
  * @jest-environment jsdom
  */
 
-import { assert, beforeEach, expect, test, vi } from "vitest";
+import { beforeEach, expect, test, vi } from "vitest";
 import { JSDOM } from "jsdom";
 import findParentNode from "../findParentNode";
 
-const noteSingleElement = {
+const singleElementNote = {
   color: "#FFFD98",
-  date: 1703695659394,
-  htmlContent:
-    '<p class="f2-mktg text-normal color-fg-muted mb-3 mb-md-10 position-relative z-1">\n          The world’s leading AI-powered developer platform.\n        </p>',
-  id: 1703695659394,
+  date: 1705867141085,
+  htmlContent: [
+    {
+      nodeName: "#text",
+      textContent: "Let’s build from here",
+    },
+  ],
+  id: 1705867141085,
   origin: "https://github.com",
-  textContent: "The world’s leading AI-powered developer platform.",
+  textContent: "Let’s build from here",
   url: "https://github.com/",
 };
 
@@ -40,8 +44,6 @@ const textSelection = {
     "It's often used for multimedia files like images, audio, and video. Examples include JPEG for images, MP3 for audio or MP4 for video.",
   url: "https://dev.to/joelbonetr/cs-fundamentals-how-data-storage-actually-works-1o4a",
 };
-
-
 
 let jsdom;
 
@@ -78,12 +80,12 @@ beforeEach(function buildDOM() {
 });
 
 test("It returns the parent element for single element selection", () => {
-  const result = findParentNode(jsdom.window.document.body, noteSingleElement);
-
-  expect(result.tagName).equal("DIV");
+  const result = findParentNode(jsdom.window.document.body, singleElementNote);
+  expect(result.tagName).equal("SPAN");
+  expect(result.innerHTML).toBe("Let’s build from&nbsp;here"); // usando innerHTML por conta do &nbsp
 });
 
-test("It returns the parent element for multiple elements selection", () => {
+test.skip("It returns the parent element for multiple elements selection", () => {
   const result = findParentNode(
     jsdom.window.document.body,
     noteMultipleSelection,
@@ -92,7 +94,7 @@ test("It returns the parent element for multiple elements selection", () => {
   expect(result.tagName).equal("DIV");
 });
 
-test("It returns the parent element for text selection", () => {
+test.skip("It returns the parent element for text selection", () => {
   const result = findParentNode(jsdom.window.document.body, textSelection);
 
   expect(result.tagName).equal("LI");

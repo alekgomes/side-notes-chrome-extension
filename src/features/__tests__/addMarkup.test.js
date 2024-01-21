@@ -44,23 +44,29 @@ beforeEach(function createDOM() {
 
 test("Works with whole single element", () => {
   // SETUP
-  const note = {
+  const singleElementNote = {
     color: "#FFFD98",
-    date: 1703866304019,
-    htmlContent:
-      '<span style="font-size: 1.2em">Let’s build from&nbsp;here</span>',
-    id: 1703866304019,
+    date: 1705867141085,
+    htmlContent: [
+      {
+        nodeName: "#text",
+        textContent: "Let’s build from here",
+      },
+    ],
+    id: 1705867141085,
     origin: "https://github.com",
     textContent: "Let’s build from here",
     url: "https://github.com/",
   };
 
-  const foundElement = findParentNode(jsdom.window.document.body, note);
-  const node = addMarkup(foundElement, note);
+  const parentFound = findParentNode(
+    jsdom.window.document.body,
+    singleElementNote,
+  );
 
+  const node = addMarkup(parentFound, singleElementNote);
   const mark = node.querySelector("mark");
-
-  expect(mark.textContent).equal(note.textContent);
+  expect(mark.textContent).equal(singleElementNote.htmlContent[0].textContent);
 });
 
 test("Should correctly wrap only couple of words within element", () => {
@@ -103,8 +109,6 @@ test("Should entirely wrap contiguous HTML nodes", () => {
   const foundElement = findParentNode(jsdom.window.document.body, note);
   const parent = wrapTextWithSpan(foundElement, note);
   const mark = parent.querySelector("MARK");
-
-  console.log(mark.textContent);
 
   // ASSERT
   expect(mark).toBeTruthy();

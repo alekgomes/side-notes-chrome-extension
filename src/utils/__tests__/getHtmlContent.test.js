@@ -12,6 +12,11 @@ let jsdom;
 beforeEach(function createDOM() {
   // DOM string based on Github's landing page
   domString = `
+  <div>
+    <h1>
+      <span style="font-size: 1.2em">Let’s build from&nbsp;here</span>
+    </h1>
+  </div>
   <ul>
     <li>
       <strong>NTFS</strong> (New Technology File System) mainly used on Windows systems
@@ -40,6 +45,7 @@ test("Should return correct value for selection including only a few words in th
   const li = jsdom.window.document.querySelector("li").childNodes[2];
   const content = li.textContent;
   const idxStart = content.indexOf("on Windows");
+
   const idxEnd = idxStart + "on Windows".length;
   const range = jsdom.window.document.createRange();
   const selection = jsdom.window.getSelection();
@@ -59,7 +65,25 @@ test("Should return correct value for selection including only a few words in th
   expect(result[0].textContent).toBe("on Windows");
 });
 
-test("Should return correct values when select entire HTML node", () => {
+test("Should return correct values when select entire HTML h1/span node", () => {
+  // SETUP
+  // Creates Selection around LI
+  const h1 = jsdom.window.document.querySelector("span");
+  const selection = jsdom.window.getSelection();
+  const range = jsdom.window.document.createRange();
+  range.setStartBefore(h1.firstChild);
+  range.setEndAfter(h1.lastChild);
+  selection.addRange(range);
+  // ACTION
+  const result = getHtmlContent(jsdom.window);
+  // ASSERT
+
+  expect(result.length).toBe(1);
+  expect(result[0].nodeName).toBe("#text");
+  expect(result[0].textContent).toBe("Let’s build from here");
+});
+
+test("Should return correct values when select entire HTML list item node", () => {
   // SETUP
   // Creates Selection around LI
   const li = jsdom.window.document.querySelector("li");
@@ -127,6 +151,7 @@ test("Should return correct values when select one entire HTML node and part of 
 
   // ACTION
   const result = getHtmlContent(jsdom.window);
+
   // ASSERT
   expect(result[0]).toHaveProperty("nodeName");
   expect(result[0].nodeName).toBe("LI");
