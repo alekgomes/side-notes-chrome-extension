@@ -18,12 +18,12 @@ chrome.contextMenus.onClicked.addListener(async () => {
   })
 
   const note = await chrome.tabs.sendMessage(tab.id || 0, {
-    type: Type.GET_NOTE_FROM_USER,
-  })
+    type: "GET_NOTE_FROM_USER",
+  });
 
-  const key = note.origin
-  let previousNoteAtId: Note[] = []
-
+  const key = note.origin;
+  let previousNoteAtId: Note[] = [];
+  
   chrome.storage.local.get(function (result) {
     Object.entries(result).map((obj) => {
       if (obj[0] === key) previousNoteAtId.push(...obj[1])
@@ -34,18 +34,18 @@ chrome.contextMenus.onClicked.addListener(async () => {
       console.log("note added to storage.local ", { note })
 
       chrome.tabs.sendMessage(tab.id || 0, {
-        type: Type.UPDATE,
+        type: "UPDATE",
         payload: note,
-      })
+      });
     })
   })
 })
 
 chrome.runtime.onMessage.addListener(async ({ type, payload }, _sender) => {
   switch (type) {
-    case Type.UPDATE_CLICKED: {
-      const { key, id } = payload.origin
-      updateNote(key, id, "clicked", false)
+    case "UPDATE_CLICKED": {
+      const { key, id } = payload.origin;
+      updateNote(key, id, "clicked", false);
     }
   }
 })

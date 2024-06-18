@@ -1,13 +1,64 @@
 import { createHoverBox } from "../utils";
 
-export default function addMarkup(nodeToWrap, note) {
-  const initalIdx = nodeToWrap.textContent.indexOf(note.textContent);
-  const finalIdx = initalIdx + note.textContent.length;
-  const innerHTMLBefore = nodeToWrap.textContent.substring(0, initalIdx);
-  const innerHTMLAfter = nodeToWrap.textContent.substring(finalIdx);
-  const innerContent = nodeToWrap.textContent.substring(initalIdx, finalIdx);
+function findTextNode(cc, note) {
+  return [...cc.childNodes].find((node) =>
+    node.textContent.trim().includes(note.content.trim()),
+  );
+}
 
-  nodeToWrap.innerHTML = `${innerHTMLBefore}<mark data-sidenotes-id=${note.id} style="background-color:${note.color}" class="sidenote-highlight">${innerContent}</mark>${innerHTMLAfter}`;
+function getCommonContainer(cc) {
+  if (cc.nodeType == 3) {
+    return getCommonContainer(cc.parentElement);
+  } else {
+    return cc;
+  }
+}
 
-  return nodeToWrap;
+function findCommonContainer(note) {
+  const tags = [...document.querySelectorAll(note.commonAncestor.tag)];
+  const commonContainer = tags.find(
+    (tag) => tag.innerHTML == note.commonAncestor.innerHTML,
+  );
+
+  return commonContainer;
+}
+
+const applyTransformation = (node) => {
+  var mark = document.createElement("mark");
+  var range = window.document.createRange();
+  range.setStart(node.textNode, node.initialIdx);
+  range.setEnd(node.textNode, node.finalIdx);
+  range.surroundContents(mark);
+};
+
+export default function addMarkup(notes) {
+  const nodes = [];
+
+  notes.forEach((note) => {
+    const commonContainer = getCommonContainer(findCommonContainer(note));
+
+    if (note.tag == "#text") {
+      const textNode = findTextNode(commonContainer, note);
+      const initialIdx = textNode.textContent.indexOf(note.content);
+      const finalIdx = initialIdx + note.content.length;
+      nodes.push({ textNode, initialIdx, finalIdx });
+    } else {
+      let node;
+      [...commonContainer.querySelectorAll(note.tag)].forEach((domNode) => {
+        if (domNode.textContent.trim().includes(note.content.trim())) {
+          node = domNode;
+        }
+      });
+
+      const initialIdx = node.textContent.trim().indexOf(note.content.trim());
+      var textNode = [...node.childNodes].filter((el) =>
+        Boolean(el.textContent.trim()),
+      )[0];
+
+      const finalIdx = note.content.length;
+      nodes.push({ textNode, initialIdx, finalIdx });
+    }
+  });
+
+  nodes.forEach(applyTransformation);
 }

@@ -1,8 +1,7 @@
 const isSameNode = (currentNode, noteContent) => {
-  return (
-    // currentNode.nodeName == noteContent.nodeName &&
-    currentNode.textContent?.trim().includes(noteContent.textContent?.trim())
-  );
+  return currentNode.textContent
+    ?.trim()
+    .includes(noteContent.textContent?.trim());
 };
 
 export default function findParentNode(rootNode, note) {

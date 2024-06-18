@@ -1,8 +1,9 @@
 export { default as createHoverBox } from "./createHoverBox"
 export { default as deleteNote } from "../features/deleteNote"
 export { default as getHtmlContent } from "./getHtmlContent"
-export { default as findParentNode } from "./findParentNode"
-export { default as handleColorPickerClick } from "./handleColorPickerClick"
-export { default as updateNote } from "../features/updateNote"
-export { default as wrapTextWithSpan } from "../features/addMarkup"
-export { default as removeHighlightFromDeletedNote } from "../features/removeHighlightFromDeletedNote"
+export { default as findParentNode } from "./findSelectedNodes";
+export { default as handleColorPickerClick } from "./handleColorPickerClick";
+export { default as updateNote } from "../features/updateNote";
+export { default as wrapTextWithSpan } from "../features/addMarkup";
+export { default as removeHighlightFromDeletedNote } from "../features/removeHighlightFromDeletedNote";
+export { default as noteFactory } from "./noteFactory";

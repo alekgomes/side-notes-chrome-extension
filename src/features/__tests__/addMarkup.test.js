@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { beforeEach, expect, test, vi } from "vitest";
+import { beforeEach, expect, test } from "vitest";
 import wrapTextWithSpan from "../addMarkup";
 import { findParentNode } from "../../utils";
 import { JSDOM } from "jsdom";
@@ -73,12 +73,16 @@ test("Should correctly wrap only couple of words within element", () => {
   // SETUP
   const note = {
     color: "#FFFD98",
-    date: 1704582419815,
-    htmlContent:
-      '<p class="f2-mktg text-normal color-fg-muted mb-3 mb-md-10 position-relative z-1">\n          The world’s leading AI-powered developer platform.\n        </p>',
-    id: 1704582419815,
+    date: 1705887704985,
+    htmlContent: [
+      {
+        nodeName: "#text",
+        textContent: "build from",
+      },
+    ],
+    id: 1705887704985,
     origin: "https://github.com",
-    textContent: "The world’s leading",
+    textContent: "build from",
     url: "https://github.com/",
   };
 
@@ -91,14 +95,23 @@ test("Should correctly wrap only couple of words within element", () => {
   expect(mark.textContent).toBe(note.textContent);
 });
 
+// Refactor - note's stale
 test("Should entirely wrap contiguous HTML nodes", () => {
   // SETUP
   const note = {
     color: "#FFFD98",
-    date: 1704915673681,
-    htmlContent:
-      '<h1 class="h0-mktg mb-3 position-relative z-2"><span style="font-size: 1.2em">Let’s build from&nbsp;here</span>\n        </h1>\n\n        <p class="f2-mktg text-normal color-fg-muted mb-3 mb-md-10 position-relative z-1">\n          The world’s leading AI-powered developer platform.</p>',
-    id: 1704915673681,
+    date: 1705888353642,
+    htmlContent: [
+      {
+        nodeName: "H1",
+        textContent: "Let’s build from here",
+      },
+      {
+        nodeName: "P",
+        textContent: "The world’s leading AI-powered developer platform.",
+      },
+    ],
+    id: 1705888353642,
     origin: "https://github.com",
     textContent:
       "Let’s build from here\nThe world’s leading AI-powered developer platform.",
