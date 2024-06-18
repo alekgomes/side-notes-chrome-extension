@@ -1,15 +1,5 @@
 const defaultColor = "#FFFD98";
 
-// {
-//   textContent: window.getSelection()?.toString(),
-//   htmlContent: getHtmlContent(),
-//   date: Date.now(),
-//   id: Date.now(),
-//   color: "#FFFD98",
-//   origin: window.location.origin,
-//   url: window.location.href,
-// }
-
 // returns element if content is a partial text
 function getCommonContainer(cc) {
   if (cc.nodeType == 3) {
@@ -49,8 +39,8 @@ function noteFactory() {
         color: defaultColor,
         id: Date.now(),
         commonAncestor: {
-          tag: getCommonContainer(commonContainer.tagName),
-          innerHTML: getCommonContainer(commonContainer.innerHTML),
+          tag: commonContainer.tagName,
+          innerHTML: commonContainer.innerHTML,
         },
       });
       return;
@@ -64,8 +54,8 @@ function noteFactory() {
         color: defaultColor,
         id: Date.now(),
         commonAncestor: {
-          tag: getCommonContainer(commonContainer.tagName),
-          innerHTML: getCommonContainer(commonContainer.innerHTML),
+          tag: commonContainer.tagName,
+          innerHTML: commonContainer.innerHTML,
         },
       });
     } else {
@@ -76,7 +66,6 @@ function noteFactory() {
     }
   }
 
-  console.log("noteFactory", notes);
   return notes;
 }
 

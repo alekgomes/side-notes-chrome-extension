@@ -14,12 +14,11 @@ function getCommonContainer(cc) {
   }
 }
 
-function findCommonContainer(note) {
-  const tags = [...document.querySelectorAll(note.commonAncestor.tag)];
+function findCommonContainer(note, context) {
+  const tags = [...context.querySelectorAll(note.commonAncestor.tag)];
   const commonContainer = tags.find(
-    (tag) => tag.innerHTML == note.commonAncestor.innerHTML,
+    (tag) => tag.innerHTML.trim() == note.commonAncestor.innerHTML.trim(),
   );
-
   return commonContainer;
 }
 
@@ -31,11 +30,13 @@ const applyTransformation = (node) => {
   range.surroundContents(mark);
 };
 
-export default function addMarkup(notes) {
+export default function addMarkup(notes, context = document) {
   const nodes = [];
 
   notes.forEach((note) => {
-    const commonContainer = getCommonContainer(findCommonContainer(note));
+    const commonContainer = getCommonContainer(
+      findCommonContainer(note, context),
+    );
 
     if (note.tag == "#text") {
       const textNode = findTextNode(commonContainer, note);
