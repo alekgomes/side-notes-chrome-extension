@@ -1,5 +1,5 @@
 import {
-  wrapTextWithSpan,
+  addMarkup,
   removeHighlightFromDeletedNote,
   getHtmlContent,
   findParentNode,
@@ -25,7 +25,7 @@ window.onload = async () => {
         }
 
         case "UPDATE": {
-          return wrapTextWithSpan(payload);
+          return addMarkup(payload);
         }
       }
     },
@@ -35,7 +35,7 @@ window.onload = async () => {
     if (result.hasOwnProperty(window.origin)) {
       result[window.origin].map(async (note) => {
         const node = findParentNode(document.body, note);
-        wrapTextWithSpan(node, note);
+        addMarkup(node, note);
 
         if (note.clicked) {
           const element = document.querySelector(

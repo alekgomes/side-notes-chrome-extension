@@ -31,7 +31,7 @@ chrome.contextMenus.onClicked.addListener(async () => {
 
     const notes = [...previousNoteAtId, note]
     chrome.storage.local.set({ [key]: notes }).then(() => {
-      console.log("note added to storage.local ", { note })
+      console.log("note added to storage.local ", note);
 
       chrome.tabs.sendMessage(tab.id || 0, {
         type: "UPDATE",

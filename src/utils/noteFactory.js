@@ -9,64 +9,79 @@ function getCommonContainer(cc) {
   }
 }
 
-function noteFactory() {
-  const selection = window.getSelection(); // TO-DO => e se não tiver seleção diponível? -> enviar toast de erro
+function removeEmpty(element) {
+  return Boolean(element.textContent.trim());
+}
+
+const nodes = [];
+function getFilteredSingleElements(clonedContent) {
+  const filtered = [...clonedContent.childNodes].filter(removeEmpty);
+  filtered.forEach((el) => {
+    if (el.nodeType == 3 || el.children.length == 0) {
+      nodes.push(el);
+    } else getFilteredSingleElements(el);
+  });
+
+  return nodes;
+}
+
+function noteFactory(context = window) {
+  const selection = context.getSelection(); // TO-DO => e se não tiver seleção diponível? -> enviar toast de erro
   const range = selection.getRangeAt(0);
+
   const cloned = range.cloneContents();
-  const commonAncestorContainer = window
+  const commonAncestorContainer = context
     .getSelection()
     .getRangeAt(0).commonAncestorContainer;
 
+  const filteredNodes = getFilteredSingleElements(cloned);
+
   const commonContainer = getCommonContainer(commonAncestorContainer);
 
-  var notes = [];
-
-  var filteredNodes = [...cloned.childNodes].filter((el) =>
-    Boolean(el.textContent.trim()),
-  );
+  var note = {
+    id: Date.now(),
+    origin: context.location.origin,
+    color: defaultColor,
+    marks: [],
+    commomContainer: {
+      tag: commonContainer.tagName,
+      innerHTML: commonContainer.innerHTML,
+    },
+  };
 
   filteredNodes.forEach((node) => {
-    getTagAndContent(node);
+    if (node.children && node.children.length > 0) {
+      [...node.children]
+        .filter((el) => Boolean(el.textContent.trim())) // .map makes more sense here
+        .forEach((node) => getTagAndContent(node));
+    } else {
+      getTagAndContent(node);
+    }
   });
 
   function getTagAndContent(node) {
     // nodeType == 3 => partial text node
     if (node.nodeType == 3) {
-      notes.push({
+      note.marks.push({
         tag: "#text",
         content: node.textContent,
-        origin: window.location.origin,
-        color: defaultColor,
-        id: Date.now(),
-        commonAncestor: {
-          tag: commonContainer.tagName,
-          innerHTML: commonContainer.innerHTML,
-        },
       });
       return;
     }
-    // handles entire single element
+
     if (node.children.length == 0) {
-      notes.push({
+      note.marks.push({
         tag: node.tagName,
         content: node.textContent,
-        origin: window.location.origin,
-        color: defaultColor,
-        id: Date.now(),
-        commonAncestor: {
-          tag: commonContainer.tagName,
-          innerHTML: commonContainer.innerHTML,
-        },
       });
     } else {
-      // If not partial text and not entire element, traverse content recusirvely
       [...node.children]
-        .filter((el) => Boolean(el.textContent.trim())) // .map makes more sense here
-        .forEach((node) => getTagAndContent(node));
+        .filter((el) => Boolean(el.textContent.trim()))
+        .map((node) => getTagAndContent(node));
     }
   }
 
-  return notes;
+  return note;
 }
 
 export default noteFactory;
