@@ -37,7 +37,7 @@ function noteFactory(context = window) {
   const filteredNodes = getFilteredSingleElements(cloned);
 
   const commonContainer = getCommonContainer(commonAncestorContainer);
-
+  debugger;
   var note = {
     id: Date.now(),
     origin: context.location.origin,

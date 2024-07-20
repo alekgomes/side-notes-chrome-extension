@@ -15,7 +15,7 @@ function findTextNodeNew(childNodesArr, mark) {
   const container = filtered.find((el) =>
     el.textContent.trim().includes(mark.content.trim()),
   );
-  debugger;
+
   if (
     container.nodeType == 3 &&
     container.textContent.trim().includes(mark.content.trim())
@@ -63,6 +63,7 @@ export default function addMarkup(notes, context = document) {
       if (mark.tag == "#text") {
         const textNode = findTextNodeNew([...commonContainer.childNodes], mark);
         const initialIdx = textNode.textContent.indexOf(mark.content);
+        debugger;
         const finalIdx = initialIdx + mark.content.length;
         nodes.push({ textNode, initialIdx, finalIdx });
       } else {
